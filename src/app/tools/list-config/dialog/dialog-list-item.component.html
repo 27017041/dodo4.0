@@ -1,0 +1,68 @@
+<h2 mat-dialog-title>
+    <ng-container *ngIf="type == 'add'">
+        {{moduleLabel.tips.enItemName}}
+    </ng-container>
+    <ng-container *ngIf="type == 'edit'">
+        {{moduleLabel.tips.edItemName}}
+    </ng-container>
+</h2>
+
+<form #itemForm="ngForm" >
+    <mat-dialog-content>
+        <mat-form-field class="full-width m-b">
+            <mat-label>{{moduleLabel['text']['typeNameCn']}}</mat-label>
+            <input matInput name="typeNameCn" [(ngModel)]="itemData.typeNameCn"
+                   #typeNameCn="ngModel" required  maxlength="255">
+            <mat-error *ngIf="typeNameCn.invalid">
+                <span *ngIf="typeNameCn.errors.required" > {{moduleLabel['text']['optionNameCn'] + globalLabel['tips']['requiredErr']}}</span>
+                <span *ngIf="!typeNameCn.errors.required&&typeNameCn.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + typeNameCn.errors.maxlength['requiredLength']}}</span>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width m-b">
+            <mat-label>{{moduleLabel['text']['typeNameTc']}}</mat-label>
+            <input matInput name="typeNameTc" [(ngModel)]="itemData.typeNameTc"
+                   #typeNameTc="ngModel" required  maxlength="255">
+            <mat-error *ngIf="typeNameTc.invalid">
+                <span *ngIf="typeNameTc.errors.required" > {{moduleLabel['text']['optionNameTc'] + globalLabel['tips']['requiredErr']}}</span>
+                <span *ngIf="!typeNameTc.errors.required&&typeNameTc.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + typeNameTc.errors.maxlength['requiredLength']}}</span>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width m-b">
+            <mat-label>{{moduleLabel['text']['typeNameEn']}}</mat-label>
+            <input matInput name="typeNameEn" [(ngModel)]="itemData.typeNameEn"
+                   #typeNameEn="ngModel" required  maxlength="255">
+            <mat-error *ngIf="typeNameEn.invalid">
+                <span *ngIf="typeNameEn.errors.required" > {{moduleLabel['text']['optionNameEn'] + globalLabel['tips']['requiredErr']}}</span>
+                <span *ngIf="!typeNameEn.errors.required&&typeNameEn.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + typeNameEn.errors.maxlength['requiredLength']}}</span>
+            </mat-error>
+        </mat-form-field>
+
+        <ng-container *ngIf="type == 'add'">
+            <mat-form-field class="full-width">
+                <mat-select placeholder="{{moduleLabel['text']['moduleName']}}"
+                            [(ngModel)]="itemData.moduleName" name="moduleName">
+                    <mat-option *ngFor="let item of moduleList" [value]="item.moduleName" >
+                        {{item.moduleName}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </ng-container>
+
+
+    </mat-dialog-content>
+
+    <div md-dialog-actions class="text-right">
+        <button mat-button (click)="dialogRef.close(0)">{{globalLabel.text.btnCancel}}</button>
+        <ng-container *ngIf="type == 'add'">
+            <button mat-button color="accent" (click)="dialogRef.close(itemData)" [disabled]="itemForm.form.invalid">{{globalLabel.text.btnAdd}}</button>
+        </ng-container>
+        <ng-container *ngIf="type == 'edit'">
+            <button mat-button color="accent" (click)="dialogRef.close(itemData)" [disabled]="itemForm.form.invalid">{{globalLabel.text.save}}</button>
+        </ng-container>
+
+    </div>
+</form>
+
+

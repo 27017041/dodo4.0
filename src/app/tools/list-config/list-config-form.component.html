@@ -1,0 +1,111 @@
+<section class="container-fluid field-tab" minheight>
+    <article class="article">
+        <div class="box box-default m-t">
+            <div class="box-body">
+                <form #optForm="ngForm">
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['optionNameCn']}}</mat-label>
+                                <input matInput
+                                       name="optionNameCn" [(ngModel)]="listItemOptData.optionNameCn"
+                                       #optionNameCn="ngModel" required  maxlength="255">
+                                <mat-error *ngIf="optionNameCn.invalid">
+                                    <span *ngIf="optionNameCn.errors.required" > {{moduleLabel['text']['optionNameCn'] + globalLabel['tips']['requiredErr']}}</span>
+                                    <span *ngIf="!optionNameCn.errors.required&&optionNameCn.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + optionNameCn.errors.maxlength['requiredLength']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['optionNameTc']}}</mat-label>
+                                <input matInput
+                                       name="optionNameTc" [(ngModel)]="listItemOptData.optionNameTc"
+                                       #optionNameTc="ngModel" required  maxlength="255">
+                                <mat-error *ngIf="optionNameTc.invalid">
+                                    <span *ngIf="optionNameTc.errors.required" > {{moduleLabel['text']['optionNameTc'] + globalLabel['tips']['requiredErr']}}</span>
+                                    <span *ngIf="!optionNameTc.errors.required&&optionNameTc.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + optionNameTc.errors.maxlength['requiredLength']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['optionNameEn']}}</mat-label>
+                                <input matInput
+                                       name="optionNameEn" [(ngModel)]="listItemOptData.optionNameEn"
+                                       #optionNameEn="ngModel" required  maxlength="255">
+                                <mat-error *ngIf="optionNameEn.invalid">
+                                    <span *ngIf="optionNameEn.errors.required" > {{moduleLabel['text']['optionNameEn'] + globalLabel['tips']['requiredErr']}}</span>
+                                    <span *ngIf="!optionNameEn.errors.required&&optionNameEn.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + optionNameEn.errors.maxlength['requiredLength']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" *ngIf="pageType == 'add' ">
+                        <ng-container *ngIf="listItem.typeId != 2">
+                            <div class="col-sm-4">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['optionKey']}}</mat-label>
+                                    <input matInput
+                                           name="optionKey" [(ngModel)]="listItemOptData.optionKey"
+                                           #optionKey="ngModel" required  maxlength="255">
+                                    <mat-error *ngIf="optionKey.invalid">
+                                        <span *ngIf="optionKey.errors.required" > {{moduleLabel['text']['optionKey'] + globalLabel['tips']['requiredErr']}}</span>
+                                        <span *ngIf="!optionKey.errors.required&&optionKey.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + optionKey.errors.maxlength['requiredLength']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                             </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="listItem.typeId == 2">
+                            <div class="col-sm-4">
+                                <mat-form-field class="full-width">
+                                    <mat-select placeholder="{{moduleLabel['text']['optionKey']}}" #optionKey="ngModel"
+                                                [(ngModel)]="listItemOptData.optionKey" name="optionKey" required>
+                                        <mat-option *ngFor="let key of optKeyList" [value]="key">
+                                            {{key}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="optionKey.invalid">
+                                        <span *ngIf="optionKey.errors.required" > {{moduleLabel['text']['optionKey'] + globalLabel['tips']['requiredErr']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-4">
+                                <mat-form-field class="full-width">
+                                    <mat-select placeholder="{{moduleLabel['text']['moduleName']}}" #moduleName="ngModel"
+                                                [(ngModel)]="listItemOptData.moduleName" name="moduleName" required>
+                                        <mat-option *ngFor="let module of moduleList" [value]="module.moduleName">
+                                            {{module.moduleName}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="moduleName.invalid">
+                                        <span *ngIf="moduleName.errors.required" > {{moduleLabel['text']['moduleName'] + globalLabel['tips']['requiredErr']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </ng-container>
+                    </div>
+
+
+                    <div class="form-group row m-t-2">
+                        <div class="col-12">
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="button"
+                                    (click)="onSaveOpt()" [disabled]="optForm.form.invalid">
+                                {{globalLabel['text']['save']}}
+                            </button>
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="button"
+                                    (click)="onReset()" [disabled]="optForm.form.pristine"
+                            >{{globalLabel['text']['btnReset']}}</button>
+                        </div>
+                    </div>
+                </form><!--End Detail Form-->
+
+
+            </div>
+        </div>
+    </article>
+</section>

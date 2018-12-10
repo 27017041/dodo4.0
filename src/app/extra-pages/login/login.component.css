@@ -1,0 +1,51 @@
+.btn-lg{
+    font-size: 16px;
+}
+.third-party{
+    position: relative;
+    font-size: 15px ;
+    color: #7c7c7c;
+    text-align: center;
+}
+.third-party:before, .third-party:after {
+    content: "";
+    display: block;
+    width: 45px;
+    height: 1px;
+    background-color:#c6c6c6;
+    position: absolute;
+    top: 50%;
+    transform:translateY(-50%);
+}
+.third-party:before {
+    left: 20%;
+}
+.third-party:after {
+    right: 20%;
+}
+.third-btn {
+    width: 100%;
+    color: #fff;
+    text-decoration: none;
+    vertical-align: baseline;
+    text-align: center;
+    margin-bottom:10px;
+    cursor: pointer;
+}
+.third-a{
+    color:#fff;
+    text-decoration: none;
+}
+.third-btn.qq{
+    background: -webkit-linear-gradient(left, #63c9fe,#3393f1);
+}
+.third-btn.wechat{
+    background: -webkit-linear-gradient(left, #8ddf17,#7ace01);
+}
+.third-btn.weibo{
+    background:  -webkit-linear-gradient(left, #e4cd85,#d88235);
+}
+.third-a .fa{
+    margin-right:10px;
+    font-size: 20px;
+}

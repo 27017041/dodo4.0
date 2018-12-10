@@ -1,0 +1,10 @@
+#quickview-customizer .flex{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#quickview-customizer .flex h4.lang-label{
+    flex: 1 1 auto;
+    margin: 0;
+}

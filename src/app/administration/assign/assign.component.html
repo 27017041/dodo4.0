@@ -1,0 +1,105 @@
+<section class="container-fluid" minheight *ngIf="globalLabel && moduleLabel">
+    <article class="article">
+        <div class="box box-default m-t">
+            <div class="box-header">{{globalLabel['text']['assign']}} </div>
+            <div class="box-divider"></div>
+            <div class="box-body">
+                <form #assignForm="ngForm">
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                            <mat-form-field class="full-width">
+                                <mat-select placeholder="{{globalLabel['text']['role']}}"
+                                            [(ngModel)]="assign.roleId" name="roleId" #roleId="ngModel" required>
+                                    <mat-option *ngFor="let r of roleList" [value]="r.roleId">
+                                        {{r.roleName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" (click)="onSearch()" [disabled]="assignForm.form.invalid">{{globalLabel['text']['btnSearch']}}</button>
+                           <!-- <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="reset" [disabled]="assignForm.pristine">{{globalLabel['text']['btnReset']}}</button>-->
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="box box-default" *ngIf="menuList">
+            <div class="box-header" id="list" >{{moduleLabel['text']['module']}}</div>
+            <div class="box-divider"></div>
+            <div class="box-body">
+                <form #moduleForm="ngForm" >
+                    <div class="row m-b" >
+                        <div class="col-12">
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" (click)="onSave()" *ngIf="auth.rightUpdate">
+                                {{globalLabel['text']['save']}}
+                            </button>
+
+                            <div class="box box-default table-box table-responsive mdl-shadow--2dp m-t">
+                                <table class="mdl-data-table table-bordered" id="assignTabel">
+                                    <tbody>
+                                        <tr *ngFor="let menu of menuList">
+                                            <ng-container [ngSwitch]="menu.menuLevel">
+                                                <ng-container *ngSwitchCase="1">
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        <mat-checkbox
+                                                                [(ngModel)]="rightData['menu'+menu.menuId]['all']"
+                                                                color="primary" name="all_{{menu.menuId}}"
+                                                                (change)="onSelectAll(rightData['menu'+menu.menuId])">
+                                                            {{menu.labelText}}
+                                                        </mat-checkbox>
+                                                    </td>
+                                                    <td></td>
+                                                </ng-container>
+                                                <ng-container *ngSwitchCase="2">
+                                                    <td></td>
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        <mat-checkbox
+                                                                [(ngModel)]="rightData['menu'+menu.menuId]['all']"
+                                                                color="primary" name="all_{{menu.menuId}}"
+                                                                (change)="onSelectAll(rightData['menu'+menu.menuId])">
+                                                            {{menu.labelText}}
+                                                        </mat-checkbox>
+                                                    </td>
+                                                </ng-container>
+                                            </ng-container>
+                                            <td class="mdl-data-table__cell--non-numeric">
+                                                <mat-checkbox
+                                                        [(ngModel)]="rightData['menu'+menu.menuId]['read']" class="m-r-05"
+                                                        color="primary" name="read_{{menu.menuId}}">
+                                                    {{moduleLabel['text']['readLabel']}}
+                                                </mat-checkbox>
+                                                <ng-container *ngIf="menu.hasChilds == 0">
+                                                    <mat-checkbox
+                                                            [(ngModel)]="rightData['menu'+menu.menuId]['insert']" class="m-r-05"
+                                                            color="primary" name="insert_{{menu.menuId}}">
+                                                        {{moduleLabel['text']['insertLabel']}}
+                                                    </mat-checkbox>
+                                                    <mat-checkbox
+                                                            [(ngModel)]="rightData['menu'+menu.menuId]['update']" class="m-r-05"
+                                                            color="primary" name="update_{{menu.menuId}}">
+                                                        {{moduleLabel['text']['updateLabel']}}
+                                                    </mat-checkbox>
+                                                    <mat-checkbox
+                                                            [(ngModel)]="rightData['menu'+menu.menuId]['delete']" class="m-r-05"
+                                                            color="primary" name="delete_{{menu.menuId}}">
+                                                        {{moduleLabel['text']['deleteLabel']}}
+                                                    </mat-checkbox>
+                                                </ng-container>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </article>
+</section>

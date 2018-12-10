@@ -1,0 +1,115 @@
+/**@import "main/product-management";**/
+$font-weight: 500;
+
+.m-t{
+    margin-top: 1rem;
+}
+.m-b{
+    margin-bottom: 1rem;
+}
+.m-l{
+    margin-left: 1rem;
+}
+.m-r{
+    margin-right: 1rem;
+}
+.m-b-0{
+    margin-bottom: 0rem;
+}
+.m-b-05{
+    margin-bottom: 0.5rem;
+}
+.m-t-05{
+    margin-top: 0.5rem;
+}
+.m-r-05{
+    margin-right: 0.5rem;
+}
+.m-l-05{
+    margin-left: 0.5rem ;
+}
+.m-t-2{
+    margin-top: 2rem;
+}
+.p-t-0{
+    padding-top: 0;
+}
+.c-p{
+    cursor: pointer;
+}
+.text-center{
+    text-align: center;
+}
+.text-success{
+    color:#66bb6a;
+}
+.text-danger{
+    color: #EF5350;
+}
+.text-warning{
+    color: #ffc107;
+}
+.text-right{
+    text-align: right;
+}
+.text-left{
+    text-align: left;
+}
+.warning{
+    color: #fff;
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+.vertical-middle{
+    vertical-align: middle;
+}
+
+.table thead th {
+    border-bottom: none !important;
+}
+div.table-responsive > div.dataTables_wrapper.container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+table.dataTable tbody td.select-checkbox:before,
+table.dataTable tbody th.select-checkbox:before{
+    margin-top: -4px !important;
+}
+table.dataTable tr.selected td.select-checkbox:after,
+table.dataTable tr.selected th.select-checkbox:after{
+    margin-top: -9px !important;
+}
+
+.alert-error{
+    color: #EF5350;
+    position: absolute;
+    width: 100%;
+    overflow: hidden;
+    font-size: 75%;
+    margin-top: .54166667em;
+    top: calc(100% - 1.66666667em);
+}
+
+.mat-pseudo-checkbox::after {
+    box-sizing: initial !important;
+}
+
+.app-overlay {
+    z-index: 1001;
+}
+.app-overlay a.overlay-close {
+    right: 0;
+}
+.app-overlay .mat-list-item .mat-list-item-content{
+    padding: 0 !important;
+}
+@media only screen and (min-width: 768px){
+    .app-overlay input.overlay-search-input {
+        font-size: 34px;
+    }
+}
+
+.weight500{
+    font-weight:$font-weight;
+}

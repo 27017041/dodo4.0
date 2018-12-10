@@ -1,0 +1,50 @@
+<ng-container *ngIf="data?.type == 'loading'">
+    <mat-spinner></mat-spinner>
+</ng-container>
+
+<ng-container *ngIf="data?.type == 'alert'">
+    <div md-dialog-content style="padding-bottom: 20px;">{{data.text}}</div>
+    <div md-dialog-actions class="text-right">
+        <button mat-button (click)="dialogRef.close(0)">{{globalLabel?.text.no}}</button>
+        <button mat-button color="accent" (click)="dialogRef.close(1)">{{globalLabel?.text.yes}}</button>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="data?.type.indexOf('msg') > -1">
+
+    <ng-container *ngIf="data?.type == 'msg_succ'">
+        <mat-toolbar class="rounded" style="background: none;">
+            <mat-icon class="material-icons" color="accent">done</mat-icon>
+            <span class="space"></span>
+            <span style="flex: 1 1 auto;"></span>
+            <span class="text-success">{{data?.text}}</span>
+        </mat-toolbar>
+    </ng-container>
+
+    <ng-container *ngIf="data?.type == 'msg_warn'">
+        <mat-toolbar class="rounded" style="background: none;">
+            <mat-icon class="material-icons" class="warning">priority_high</mat-icon>
+            <span class="space"></span>
+            <span style="flex: 1 1 auto;"></span>
+            <span class="text-warning">{{data?.text}}</span>
+        </mat-toolbar>
+    </ng-container>
+
+    <ng-container *ngIf="data?.type == 'msg_danger'">
+        <mat-toolbar class="rounded" style="background: none;">
+            <mat-icon class="material-icons" color="warn">clear</mat-icon>
+            <span class="space"></span>
+            <span style="flex: 1 1 auto;"></span>
+            <span class="text-danger">{{data?.text}}</span>
+        </mat-toolbar>
+    </ng-container>
+
+
+
+
+
+
+
+
+</ng-container>
+

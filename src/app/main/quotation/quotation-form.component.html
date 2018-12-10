@@ -1,0 +1,268 @@
+<section class="container-fluid" minheight>
+    <article class="article">
+        <div class="box box-default m-t">
+            <div class="box-header">{{moduleLabel['text']['quotationDetails']}}</div>
+            <div class="box-divider"></div>
+            <div class="box-body">
+                <form #quotationForm="ngForm">
+                    <ng-container *ngIf="quotationData">
+                        <div class="form-group row">
+                            <div class="col-sm-3 m-b">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['quotationNo']}}</mat-label>
+                                    <input matInput name="quotationNo" [(ngModel)]="quotationData.quotationNo"
+                                           #quotationNo="ngModel" disabled minlength="2" maxlength="25">
+                                </mat-form-field>
+                            </div>
+                            <!--<div class="col-sm-3 m-b">
+                                <mat-form-field class="full-width" *ngIf="clientOList">
+                                    <mat-select placeholder="{{moduleLabel['text']['quoClient']}}"
+                                                [(ngModel)]="quotationData.clientId" name="quoClient"
+                                                #quoClient="ngModel" required >
+                                        <mat-option *ngFor="let s of clientOList" [value]="s.clientId">
+                                            {{s.clientName}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="quoClient.invalid">
+                                        <span *ngIf="quoClient.errors.required" > {{moduleLabel['text']['quoClient'] + globalLabel['tips']['requiredErr']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-3 m-b">
+                                <mat-form-field class="full-width" *ngIf="contactOList">
+                                    <mat-select placeholder="{{moduleLabel['text']['quoContact']}}"
+                                                [(ngModel)]="quotationData.contactId" name="quoContact"
+                                                #quoContact="ngModel" required >
+                                        <mat-option *ngFor="let s of contactOList" [value]="s.contactId">
+                                            {{s.contactName}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="quoContact.invalid">
+                                        <span *ngIf="quoContact.errors.required" > {{moduleLabel['text']['quoContact'] + globalLabel['tips']['requiredErr']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>-->
+                            <div class="col-sm-3 m-b">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{globalLabel['text']['status']}}</mat-label>
+                                    <input matInput name="statusName" disabled [(ngModel)]="quotationData.statusName">
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-3 m-b">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['totalCost']}}</mat-label>
+                                    <input matInput name="totalCost" [(ngModel)]="quotationData.totalCost" disabled>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-3 m-b">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['discount']}}</mat-label>
+                                    <input matInput name="discount" [(ngModel)]="quotationData.discount">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-3 m-b">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['createDate']}}</mat-label>
+                                    <input matInput name="createDate" disabled [(ngModel)]="quotationData.createDate">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-3 m-b">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['expiryDate']}}</mat-label>
+                                    <input matInput name="expiryDate" [(ngModel)]="quotationData.expiryDate">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-3 m-b">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['title']}}</mat-label>
+                                    <input matInput #title="ngModel" required
+                                           name="title" [(ngModel)]="quotationData.title">
+                                    <mat-error *ngIf="title.invalid">
+                                        <span *ngIf="title.errors.required"> {{moduleLabel['text']['title'] + globalLabel['tips']['requiredErr']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-3 m-b">
+                                <mat-form-field class="full-width" *ngIf="currencyList">
+                                    <mat-select placeholder="{{moduleLabel['text']['currency']}}"
+                                                [(ngModel)]="quotationData.currency" name="currency"
+                                                #currency="ngModel" required>
+                                        <mat-option *ngFor="let s of currencyList" [value]="s.id">
+                                            {{s.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="currency.invalid">
+                                        <span *ngIf="currency.errors.required"> {{moduleLabel['text']['currency'] + globalLabel['tips']['requiredErr']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-3 m-b">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['exchangeRate']}}</mat-label>
+                                    <input matInput name="exchangeRate" [(ngModel)]="quotationData.exchangeRate">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-3 m-b">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['aILCurrency']}}</mat-label>
+                                    <input matInput name="aILCurrency" [(ngModel)]="quotationData.aILCurrency">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-3 m-b">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['companyName']}}</mat-label>
+                                    <input matInput readonly name="companyName" #companyName="ngModel" required
+                                           [(ngModel)]="quotationData.companyName">
+                                    <mat-error *ngIf="companyName.invalid">
+                                        <span *ngIf="companyName.errors.required" > {{moduleLabel['text']['companyName'] + globalLabel['tips']['requiredErr']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-3 m-b">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['clientName']}}</mat-label>
+                                    <input matInput readonly name="clientName"  #clientName="ngModel" required
+                                           [(ngModel)]="quotationData.clientName">
+                                    <mat-error *ngIf="clientName.invalid">
+                                        <span *ngIf="clientName.errors.required" > {{moduleLabel['text']['clientName'] + globalLabel['tips']['requiredErr']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-3 m-b">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['contactName']}}</mat-label>
+                                    <input matInput readonly name="contactName" #contactName="ngModel" required
+                                           [(ngModel)]="quotationData.contactName">
+                                    <mat-error *ngIf="contactName.invalid">
+                                        <span *ngIf="contactName.errors.required" > {{moduleLabel['text']['contactName'] + globalLabel['tips']['requiredErr']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-3 m-b">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['linkageModule']}}</mat-label>
+                                    <input matInput readonly name="linkageModule"
+                                           [(ngModel)]="quotationData.linkageModule"
+                                           (click)="onLinkage()">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </ng-container>
+                </form>
+                <div class="form-group row">
+                    <div class="col-12">
+                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left"
+                                *ngIf="pageType=='add'" type="button"
+                                (click)="onSave()" [disabled]="quotationForm.form.invalid">
+                            {{globalLabel['text']['save']}}
+                        </button>
+                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left"
+                                *ngIf="pageType=='detail'" type="button"
+                                (click)="onChange()" [disabled]="quotationForm.form.invalid">
+                            {{globalLabel['text']['change']}}
+                        </button>
+                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="reset"
+                                (click)="onReset()" [disabled]="quotationForm.pristine">
+                            {{globalLabel['text']['btnReset']}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-default">
+            <div class="box-header" id="list">{{moduleLabel['text']['quotationItem']}}</div>
+            <div [ngClass]="{'box-divider':auth.rightInsert || auth.rightDelete}"></div>
+            <div class="box-body">
+                <div [ngClass]="{'row m-b':auth.rightInsert || auth.rightDelete}">
+                    <div class="col-12">
+
+                        <button mat-raised-button color="accent" class="btn-w-xs"
+                                *ngIf="auth.rightInsert" (click)="onAddItem()">
+                            {{globalLabel['text']['btnAdd']}}
+                        </button>
+                        <button mat-raised-button color="warn" class="btn-w-xs"
+                                *ngIf="auth.rightDelete" [disabled]="isBtnDelete" (click)="onDeleteItem()">
+                            {{globalLabel['text']['btnDel']}}
+                        </button>
+                        <!--<button mat-raised-button exportRecord [url]="this.url"  color="accent" class="btn-w-xs">
+                            {{moduleLabel['text']['exportRecord']}}
+                        </button>
+                        <button mat-raised-button uploadExcel color="accent" class="btn-w-xs" >
+                            {{moduleLabel['text']['importFromExcel']}}
+                        </button>
+                        <button mat-raised-button  color="primary" class="btn-w-xs"
+                                *ngIf="auth.rightSetClient"  [disabled]="isBtnSetClient" (click)="onSetClient()">
+                            {{moduleLabel['text']['addClientBtn']}}
+                        </button>
+                        <button mat-raised-button  color="primary" class="btn-w-xs"
+                                *ngIf="auth.rightSetContact"  [disabled]="isBtnSetContact" (click)="onSetContact()">
+                            {{moduleLabel['text']['addContactBtn']}}
+                        </button>-->
+
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table datatable [dtOptions]="qItemDtOptions" class="table table-striped" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>{{moduleLabel['text']['title']}}</th>
+                             <!--   <th>{{moduleLabel['text']['description']}}</th>-->
+                                <th>{{moduleLabel['text']['unitPrice']}}</th>
+                                <th>{{moduleLabel['text']['unitCost']}}</th>
+                                <th>{{moduleLabel['text']['qty']}}</th>
+                                <th>{{moduleLabel['text']['disc%']}}</th>
+                                <th>{{moduleLabel['text']['discount']}}</th>
+                                <th>{{moduleLabel['text']['subTotal']}}</th>
+                                <th>{{moduleLabel['text']['supplier']}}</th>
+                                <th>{{moduleLabel['text']['EuShipDate']}}</th>
+                                <th>{{moduleLabel['text']['officeShipDate']}}</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+        <ng-container *ngIf="relationalList">
+            <ng-container *ngFor="let r of relationalList;let rIndex = index">
+                <div class="box box-default">
+                    <div class="box-header">{{globalLabel['text'][r.relationalName]}}</div>
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table datatable [dtOptions]="dtOptionsList[rIndex]" class="table table-striped"
+                                   cellspacing="0" width="100%">
+                                <thead>
+                                <tr>
+                                    <ng-container *ngIf="relationalFieldList">
+                                        <ng-container *ngFor="let field of relationalFieldList[rIndex]">
+
+                                            <th>
+                                                <ng-container
+                                                        *ngIf="!checkObjEmpty(relationalLabelList[r.relationalName])">
+                                                    {{relationalLabelList[r.relationalName]["text"][field.fieldName]}}
+                                                </ng-container>
+                                            </th>
+                                        </ng-container>
+                                    </ng-container>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+
+
+    </article>
+</section>

@@ -1,0 +1,94 @@
+<section class="page-with-tabs">
+    <mat-tab-group [selectedIndex]="selectedIndex" (selectedIndexChange)="onIndexChange($event)"
+                   (selectedTabChange)="onTabsChange($event)" *ngIf="globalLabel && moduleLabel">
+        <mat-tab label="{{globalLabel['text']['listConf']}}">
+            <section class="container-fluid" minheight>
+                <article class="article">
+                    <div class="box box-default m-t">
+                        <div class="box-header">{{globalLabel['text']['btnSearch']}}</div>
+                        <div class="box-divider"></div>
+                        <div class="box-body">
+                            <form #searchForm="ngForm">
+                                <div class="form-group row">
+                                    <div class="col-sm-3">
+                                        <mat-form-field class="full-width">
+                                            <mat-select placeholder="{{moduleLabel['text']['listItem']}}" (selectionChange)="selectionChange($event)"
+                                                        [(ngModel)]="selectItem.typeId" name="typeId" required>
+                                                <mat-option *ngFor="let item of itemList" [value]="item.typeId">
+                                                    <ng-container *ngIf="lang == 'cn'">
+                                                        {{item.typeNameCn}}
+                                                    </ng-container>
+                                                    <ng-container *ngIf="lang == 'tc'">
+                                                        {{item.typeNameTc}}
+                                                    </ng-container>
+                                                    <ng-container *ngIf="lang == 'en'">
+                                                        {{item.typeNameEn}}
+                                                    </ng-container>
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-12">
+                                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" (click)="onSearch()" [disabled]="searchForm.form.invalid">{{globalLabel['text']['btnSearch']}}</button>
+                                        <!--<button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="reset">{{globalLabel['text']['btnReset']}}</button>-->
+                                        <button mat-raised-button color="accent" class="btn-w-xs no-margin-left" (click)="onAdd()">{{globalLabel['text']['btnAdd']}}</button>
+                                        <ng-container *ngIf="!searchForm.form.invalid">
+                                            <button mat-raised-button color="accent" class="btn-w-xs no-margin-left" (click)="onEdit()">{{globalLabel['text']['btnEdit']}}</button>
+                                        </ng-container>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="box box-default" *ngIf="isSearch">
+                        <div class="box-header" id="list" >{{globalLabel['text']['list']}}</div>
+                        <div [ngClass]="{'box-divider':auth.rightInsert || auth.rightDelete}"></div>
+                        <div class="box-body">
+                            <div [ngClass]="{'row m-b':auth.rightInsert || auth.rightDelete}">
+                                <div class="col-12">
+                                    <button mat-raised-button  color="accent" class="btn-w-xs"
+                                            *ngIf="auth.rightInsert" (click)="onAddOpt()">
+                                        {{globalLabel['text']['btnAdd']}}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive" >
+                                <table datatable [dtOptions]="dtOptions" class="table table-striped" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>{{moduleLabel['text']['typeNameCn']}}</th>
+                                            <th>{{moduleLabel['text']['typeNameTc']}}</th>
+                                            <th>{{moduleLabel['text']['typeNameEn']}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </article>
+            </section>
+        </mat-tab>
+
+        <mat-tab label="{{pageType=='add'?globalLabel['text']['btnAdd']:globalLabel['text']['detail']}}" *ngIf="isDisplay">
+            <my-list-item-form
+                    [pageType]="pageType"  [listItemOptData]="listItemOptData"
+                    [moduleLabel]="moduleLabel" [globalLabel]="globalLabel"
+                    [listItem]="listItem" [moduleList]="moduleList"
+                    (onReload)="onReload($event)"
+            >
+            </my-list-item-form>
+        </mat-tab>
+
+
+    </mat-tab-group>
+</section>

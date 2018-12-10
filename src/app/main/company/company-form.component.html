@@ -1,0 +1,51 @@
+<section class="container-fluid" minheight>
+    <article class="article">
+        <div class="box box-default m-t">
+            <div class="box-body">
+                <form #companyForm="ngForm">
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['companyName']}}</mat-label>
+                                <input matInput  name="companyName" [(ngModel)]="companyData.companyName"
+                                       #companyName="ngModel" required >
+                                <mat-error *ngIf="companyName.invalid">
+                                    <span *ngIf="companyName.errors.required" > {{moduleLabel['text']['companyName'] + globalLabel['tips']['requiredErr']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['companyEmail']}}</mat-label>
+                                <input matInput  name="companyEmail" [(ngModel)]="companyData.companyEmail"
+                                       #companyEmail="ngModel" email>
+                                <mat-error *ngIf="companyEmail.invalid">
+                                    <span *ngIf="companyEmail.errors.email" > {{globalLabel['tips']['emailErr']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['companyPhone']}}</mat-label>
+                                <input matInput  name="companyPhone" [(ngModel)]="companyData.companyPhone"
+                                       #companyPhone="ngModel" >
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="form-group row m-t-2">
+                        <div class="col-12">
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="button"
+                                    (click)="onSave()" [disabled]="companyForm.form.invalid">
+                                {{globalLabel['text']['save']}}
+                            </button>
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="reset"
+                                    (click)="onReset()" [disabled]="companyForm.pristine"
+                            >{{globalLabel['text']['btnReset']}}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </article>
+</section>

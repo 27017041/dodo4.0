@@ -1,0 +1,23 @@
+
+<h2 mat-dialog-title>
+    {{moduleLabel.tips.selectField}}
+</h2>
+
+<mat-dialog-content>
+    <mat-form-field class="full-width">
+        <mat-select [(value)]="selectedField">
+            <mat-option *ngFor="let field of fieldList" [value]="field">
+                {{ field.fieldLabel}}（{{ field.fieldType}}）
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+</mat-dialog-content>
+
+<div md-dialog-actions class="text-right">
+    <button mat-button (click)="dialogRef.close(0)">{{globalLabel.text.no}}</button>
+    <button mat-button color="accent" (click)="dialogRef.close(selectedField)" [disabled]="!selectedField">{{globalLabel.text.yes}}</button>
+</div>
+
+
+<small *ngIf="type == 'grid'">{{moduleLabel.tips.doNotHIdeFirst}}</small>

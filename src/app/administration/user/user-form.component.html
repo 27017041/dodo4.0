@@ -1,0 +1,170 @@
+<section class="container-fluid" minheight>
+    <article class="article">
+        <div class="box box-default m-t" *ngIf="formData">
+            <div class="box-body">
+                <form #detailForm="ngForm" >
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['loginName']}}</mat-label>
+                                <input matInput  name="loginName" [(ngModel)]="formData.loginName"
+                                       #loginName="ngModel" required  minlength="2" maxlength="25">
+                                <mat-error *ngIf="loginName.invalid">
+                                    <span *ngIf="loginName.errors.required" > {{moduleLabel['text']['loginName'] + globalLabel['tips']['requiredErr']}}</span>
+                                    <span *ngIf="!loginName.errors.required&&loginName.errors.minlength" > {{globalLabel['tips']['minLengthErr'] + loginName.errors.minlength['requiredLength']}}</span>
+                                    <span *ngIf="!loginName.errors.required&&loginName.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + loginName.errors.maxlength['requiredLength']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['email']}}</mat-label>
+                                <input matInput  name="email" [(ngModel)]="formData.email"
+                                       #email="ngModel" required  email>
+                                <mat-error *ngIf="email.invalid">
+                                    <span *ngIf="email.errors.required" > {{moduleLabel['text']['email'] + globalLabel['tips']['requiredErr']}}</span>
+                                    <span *ngIf="!email.errors.required&&email.errors.email" > {{globalLabel['tips']['emailErr']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <mat-form-field class="full-width">
+                                <mat-select placeholder="{{moduleLabel['text']['status']}}"
+                                            [(ngModel)]="formData.status" name="status"
+                                            #status="ngModel" required >
+                                    <mat-option *ngFor="let s of statusList" [value]="s.optionId">
+                                        {{s.optionName}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="status.invalid">
+                                    <span *ngIf="status.errors.required" > {{moduleLabel['text']['status'] + globalLabel['tips']['requiredErr']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <mat-form-field class="full-width">
+                                <mat-select placeholder="{{globalLabel['text']['role']}}"
+                                            [(ngModel)]="formData.roleId" name="role"
+                                            #role="ngModel" required multiple>
+                                    <mat-option *ngFor="let r of roleList" [value]="r.roleId">{{r.roleName}}</mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="role.invalid">
+                                    <span *ngIf="role.errors.required" > {{globalLabel['text']['role'] + globalLabel['tips']['requiredErr']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['firstName']}}</mat-label>
+                                <input matInput  name="firstName" [(ngModel)]="formData.firstName"
+                                       #firstName="ngModel" required   maxlength="200">
+                                <mat-error *ngIf="firstName.invalid">
+                                    <span *ngIf="firstName.errors.required" > {{moduleLabel['text']['firstName'] + globalLabel['tips']['requiredErr']}}</span>
+                                    <span *ngIf="!firstName.errors.required&&firstName.errors.maxlength" > {{globalLabel['tips']['minLengthErr'] + firstName.errors.maxlength['requiredLength'] }}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['lastName']}}</mat-label>
+                                <input matInput  name="lastName" [(ngModel)]="formData.lastName"
+                                       #lastName="ngModel" required   maxlength="200">
+                                <mat-error *ngIf="lastName.invalid">
+                                    <span *ngIf="lastName.errors.required" > {{moduleLabel['text']['lastName'] + globalLabel['tips']['requiredErr']}}</span>
+                                    <span *ngIf="!lastName.errors.required&&lastName.errors.maxlength" > {{globalLabel['tips']['minLengthErr'] + lastName.errors.maxlength['requiredLength'] }}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['mobilePhone']}}</mat-label>
+                                <input matInput  name="mobilePhone" [(ngModel)]="formData.mobilePhone"
+                                       #mobilePhone="ngModel" required   maxlength="200">
+                                <mat-error *ngIf="mobilePhone.invalid">
+                                    <span *ngIf="mobilePhone.errors.required" > {{moduleLabel['text']['mobilePhone'] + globalLabel['tips']['requiredErr']}}</span>
+                                    <span *ngIf="!mobilePhone.errors.required&&mobilePhone.errors.maxlength" > {{globalLabel['tips']['minLengthErr'] + mobilePhone.errors.maxlength['requiredLength'] }}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['directPhone']}}</mat-label>
+                                <input matInput  name="directPhone" [(ngModel)]="formData.directPhone"
+                                       #directPhone="ngModel" required   maxlength="200">
+                                <mat-error *ngIf="directPhone.invalid">
+                                    <span *ngIf="directPhone.errors.required" > {{moduleLabel['text']['directPhone'] + globalLabel['tips']['requiredErr']}}</span>
+                                    <span *ngIf="!directPhone.errors.required&&directPhone.errors.maxlength" > {{globalLabel['tips']['minLengthErr'] + directPhone.errors.maxlength['requiredLength'] }}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <!--<div class="col-sm-3">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="{{moduleLabel['text']['title']}} ({{moduleLabel['text']['title']}})"
+                                       name="title" [(ngModel)]="formData.title"
+                                       #title="ngModel" maxlength="200">
+                            </mat-form-field>
+                            <div class="alert-error" *ngIf="title.invalid && (title.dirty || title.touched)">
+                                <span *ngIf="!title.errors.required&&title.errors.maxlength" > {{globalLabel['tips']['minLengthErr'] + title.errors.maxlength['requiredLength'] }}</span>
+                            </div>
+                        </div>-->
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['address1']}}</mat-label>
+                                <input matInput  name="address1" [(ngModel)]="formData.address1"
+                                       #address1="ngModel" required   maxlength="200">
+                                <mat-error *ngIf="address1.invalid">
+                                    <span *ngIf="address1.errors.required" > {{moduleLabel['text']['address1'] + globalLabel['tips']['requiredErr']}}</span>
+                                    <span *ngIf="!address1.errors.required&&address1.errors.maxlength" > {{globalLabel['tips']['minLengthErr'] + address1.errors.maxlength['requiredLength'] }}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['address2']}}</mat-label>
+                                <input matInput  name="address2" [(ngModel)]="formData.address2"
+                                       #address2="ngModel" required   maxlength="200">
+                                <mat-error *ngIf="address2.invalid">
+                                    <span *ngIf="address2.errors.required" > {{moduleLabel['text']['address2'] + globalLabel['tips']['requiredErr']}}</span>
+                                    <span *ngIf="!address2.errors.required&&address2.errors.maxlength" > {{globalLabel['tips']['minLengthErr'] + address2.errors.maxlength['requiredLength'] }}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="form-group row m-t-2">
+                        <div class="col-12">
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left"
+                                    *ngIf="pageType=='add'" type="button"
+                                    (click)="onAdd()" [disabled]="detailForm.form.invalid">
+                                {{globalLabel['text']['btnAdd']}}
+                            </button>
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left"
+                                    *ngIf="pageType=='detail'" type="button"
+                                    (click)="onUpdate()" [disabled]="detailForm.form.invalid">
+                                {{globalLabel['text']['save']}}
+                            </button>
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="reset"
+                                    (click)="onReset()" [disabled]="detailForm.form.pristine">
+                                {{globalLabel['text']['btnReset']}}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </article>
+</section>

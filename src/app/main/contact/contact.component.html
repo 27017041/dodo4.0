@@ -1,0 +1,39 @@
+<section class="page-with-tabs">
+    <mat-tab-group [selectedIndex]="selectedIndex" (selectedIndexChange)="onIndexChange($event)"
+                   (selectedTabChange)="onTabsChange($event)" *ngIf="globalLabel && moduleLabel">
+        <mat-tab label="{{globalLabel['text']['listConf']}}">
+            <section class="container-fluid" minheight>
+                <article class="article">
+                    <div class="box box-default m-t">
+                        <div class="box-header">{{globalLabel['text']['btnSearch']}}</div>
+                        <div class="box-divider"></div>
+                        <div class="box-body">
+                            <form #searchForm="ngForm">
+                                <div class="form-group row">
+                                    <div class="col-sm-3">
+                                        <mat-form-field class="full-width">
+                                            <input matInput placeholder="{{moduleLabel['text']['contactName']}}"
+                                                   name="contactName" [(ngModel)]="contact.contactName">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <mat-form-field class="full-width">
+                                            <input matInput placeholder="{{moduleLabel['text']['email']}}"
+                                                   name="email" [(ngModel)]="contact.email">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-12">
+                                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" (click)="onSearch()" [disabled]="searchForm.form.invalid">{{globalLabel['text']['btnSearch']}}</button>
+                                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="reset">{{globalLabel['text']['btnReset']}}</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </mat-tab>
+    </mat-tab-group>
+</section>

@@ -1,0 +1,131 @@
+<section class="container-fluid" minheight>
+    <article class="article">
+        <div class="box box-default m-t">
+            <div class="box-body">
+                <form #schedulerForm="ngForm">
+                    <div class="form-group row">
+                        <div class="col-sm-3 m-b">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['cronName']}}</mat-label>
+                                <input matInput  name="cronName" [(ngModel)]="schedulerData.cronName" #cronName="ngModel" required>
+                                <mat-error *ngIf="cronName.invalid">
+                                    <span *ngIf="cronName.errors.required" > {{moduleLabel['text']['cronName'] + globalLabel['tips']['requiredErr']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 m-b">
+                            <mat-form-field class="full-width">
+                                <mat-select placeholder="{{moduleLabel['text']['type']}}"
+                                            [(ngModel)]="schedulerType" name="type"  #type="ngModel" required >
+                                    <mat-option *ngFor="let list of typeList" [value]="list">
+                                        {{list}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="type.invalid">
+                                    <span *ngIf="type.errors.required" > {{moduleLabel['text']['type'] + globalLabel['tips']['requiredErr']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 m-b" *ngIf="schedulerType == 'Month'">
+                            <mat-form-field class="full-width">
+                                <mat-select placeholder="{{moduleLabel['text']['monthDay']}}"
+                                            [(ngModel)]="schedulerData.monthDay" name="monthDay"
+                                            #monthDay="ngModel" required  multiple>
+                                    <mat-option *ngFor="let list of monthDayList" [value]="list">
+                                        {{list}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="monthDay.invalid">
+                                    <span *ngIf="monthDay.errors.required" > {{moduleLabel['text']['monthDay'] + globalLabel['tips']['requiredErr']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 m-b" *ngIf="schedulerType == 'Week'">
+                            <mat-form-field class="full-width">
+                                <mat-select placeholder="{{moduleLabel['text']['weekDay']}}"
+                                            [(ngModel)]="schedulerData.weekDay" name="weekDay"
+                                            #weekDay="ngModel" required multiple>
+                                    <mat-option *ngFor="let list of weekDayList" [value]="list">
+                                        {{list}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="weekDay.invalid">
+                                    <span *ngIf="weekDay.errors.required" > {{moduleLabel['text']['weekDay'] + globalLabel['tips']['requiredErr']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 m-b" *ngIf="schedulerType">
+                            <mat-form-field class="full-width">
+                                <mat-select placeholder="{{moduleLabel['text']['hourDay']}}"
+                                            [(ngModel)]="schedulerData.hourDay" name="hourDay"
+                                            #hourDay="ngModel" required multiple>
+                                    <mat-option *ngFor="let list of hourDayList" [value]="list">
+                                        {{list}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="hourDay.invalid">
+                                    <span *ngIf="hourDay.errors.required" > {{moduleLabel['text']['hourDay'] + globalLabel['tips']['requiredErr']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 m-b" *ngIf="schedulerType">
+                            <mat-form-field class="full-width">
+                                <mat-select placeholder="{{moduleLabel['text']['minuteHour']}}"
+                                            [(ngModel)]="schedulerData.minuteHour" name="minuteHour"
+                                            #minuteHour="ngModel" required multiple>
+                                    <mat-option *ngFor="let list of minuteHourList" [value]="list">
+                                        {{list}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="minuteHour.invalid">
+                                    <span *ngIf="minuteHour.errors.required" > {{moduleLabel['text']['minuteHour'] + globalLabel['tips']['requiredErr']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 m-b">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['className']}}</mat-label>
+                                <input matInput  name="className" [(ngModel)]="schedulerData.className" #className="ngModel" required>
+                                <mat-error *ngIf="className.invalid">
+                                    <span *ngIf="className.errors.required" > {{moduleLabel['text']['className'] + globalLabel['tips']['requiredErr']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 m-b">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['methodName']}}</mat-label>
+                                <input matInput  name="methodName" [(ngModel)]="schedulerData.methodName" #methodName="ngModel" required>
+                                <mat-error *ngIf="methodName.invalid">
+                                    <span *ngIf="methodName.errors.required" > {{moduleLabel['text']['methodName'] + globalLabel['tips']['requiredErr']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 m-b">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['paramName']}}</mat-label>
+                                <input matInput  name="paramName" [(ngModel)]="schedulerData.paramName">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 m-b">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['retentionTime']}}</mat-label>
+                                <input matInput  name="retentionTime" [(ngModel)]="schedulerData.retentionTime">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="form-group row m-t-2">
+                        <div class="col-12">
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="button"
+                                    (click)="onSave()" [disabled]="schedulerForm.form.invalid">
+                                {{globalLabel['text']['save']}}
+                            </button>
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="button"
+                                    (click)="onReset()" [disabled]="schedulerForm.form.pristine"
+                            >{{globalLabel['text']['btnReset']}}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </article>
+</section>

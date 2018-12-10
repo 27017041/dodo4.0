@@ -1,0 +1,534 @@
+<section class="container-fluid field-tab" minheight>
+    <article class="article">
+        <div class="box box-default m-t">
+            <div class="box-body">
+
+                <!--Add Form-->
+                <form #fieldAddForm="ngForm">
+                    <ng-container  *ngIf="fieldPageType == 'add'">
+                        <div class="form-group row">
+                            <!--<div class="col-sm-4">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['labelTextCn']}}</mat-label>
+                                    <input matInput  name="labelTextCn" [(ngModel)]="fieldData.labelTextCn"
+                                           #labelTextCn="ngModel" required  maxlength="200">
+                                    <mat-error *ngIf="labelTextCn.invalid">
+                                        <span *ngIf="labelTextCn.errors.required" > {{moduleLabel['text']['labelTextCn'] + globalLabel['tips']['requiredErr']}}</span>
+                                        <span *ngIf="!labelTextCn.errors.required&&labelTextCn.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + labelTextCn.errors.maxlength['requiredLength']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['labelTextTc']}}</mat-label>
+                                    <input matInput  name="labelTextTc" [(ngModel)]="fieldData.labelTextTc"
+                                           #labelTextTc="ngModel" required  maxlength="200">
+                                    <mat-error *ngIf="labelTextTc.invalid">
+                                        <span *ngIf="labelTextTc.errors.required" > {{moduleLabel['text']['labelTextTc'] + globalLabel['tips']['requiredErr']}}</span>
+                                        <span *ngIf="!labelTextTc.errors.required&&labelTextTc.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + labelTextTc.errors.maxlength['requiredLength']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['labelTextEn']}}</mat-label>
+                                    <input matInput  name="labelTextEn" [(ngModel)]="fieldData.labelTextEn"
+                                           #labelTextEn="ngModel" required  maxlength="200">
+                                    <mat-error *ngIf="labelTextEn.invalid">
+                                        <span *ngIf="labelTextEn.errors.required" > {{moduleLabel['text']['labelTextEn'] + globalLabel['tips']['requiredErr']}}</span>
+                                        <span *ngIf="!labelTextEn.errors.required&&labelTextEn.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + labelTextEn.errors.maxlength['requiredLength']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>-->
+
+                            <div class="col-sm-4">
+                                <mat-form-field class="full-width">
+                                    <mat-select placeholder="{{moduleLabel['text']['labelType']}}"
+                                                [(ngModel)]="fieldData.labelType" name="labelType"
+                                                #labelType="ngModel" required >
+                                        <mat-option *ngFor="let label of labelTypeList" [value]="label.optionId">
+                                            <ng-container *ngIf="lang == 'cn'">
+                                                {{label.optionNameCn}}
+                                            </ng-container>
+                                            <ng-container *ngIf="lang == 'tc'">
+                                                {{label.optionNameTc}}
+                                            </ng-container>
+                                            <ng-container *ngIf="lang == 'en'">
+                                                {{label.optionNameEn}}
+                                            </ng-container>
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="labelType.invalid">
+                                        <span *ngIf="labelType.errors.required" > {{moduleLabel['text']['labelType'] + globalLabel['tips']['requiredErr']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['fieldLabel']}}</mat-label>
+                                    <mat-select
+                                                [(ngModel)]="fieldData.fieldLabel" name="fieldLabel"
+                                                #fieldLabel="ngModel"  required >
+                                        <mat-option *ngFor="let label of labelOriginalList" [value]="label.label_orginal">
+                                            {{label.label_orginal}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="fieldLabel.invalid">
+                                        <span *ngIf="fieldLabel.errors.required" > {{moduleLabel['text']['fieldLabel'] + globalLabel['tips']['requiredErr']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+
+                            </div>
+
+                            <div class="col-sm-4">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['fieldType']}}</mat-label>
+                                    <mat-select
+                                                [(ngModel)]="fieldData.fieldType" name="fieldType"
+                                                #fieldType="ngModel"  (selectionChange)="onChangeFieldType(fieldData)"  required >
+                                        <mat-option *ngFor="let type of typeList" [value]="type">
+                                            {{type}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="fieldType.invalid">
+                                        <span *ngIf="fieldType.errors.required" > {{moduleLabel['text']['fieldType'] + globalLabel['tips']['requiredErr']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                           <!-- <div class="col-sm-4">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['isLinkage']}}</mat-label>
+                                    <mat-select name="isLinkage" [(ngModel)]="fieldData.isLinkage" #isLinkage="ngModel">
+                                        <mat-option *ngFor="let d of linkageList" [value]="d.optionId">{{d.optionName}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>-->
+
+                            <div class="col-sm-4"  *ngIf="fieldData.fieldType == 'linkage'">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['linkageModule']}}</mat-label>
+                                    <mat-select name="linkageModule" [(ngModel)]="fieldData.linkageModule"
+                                                #linkageModule="ngModel" multiple required
+                                                (selectionChange)="linkageModuleChange($event)">
+                                        <mat-select-trigger *ngIf="fieldData.linkageModule">
+                                            <ng-container *ngFor="let f of fieldData.linkageModule;let fIndex = index">
+                                                <ng-container *ngFor="let m of moduleList">
+                                                    <ng-container *ngIf="m.moduleName == f">
+                                                        {{m.labelText}}<ng-container *ngIf="(fIndex+1) != fieldData.linkageModule.length">,</ng-container>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                        </mat-select-trigger>
+                                        <mat-option *ngFor="let m of moduleList" [value]="m.moduleName">
+                                            {{m.labelText}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="linkageModule.invalid">
+                                        <span *ngIf="linkageModule.errors.required" > {{moduleLabel['text']['linkageModule'] + globalLabel['tips']['requiredErr']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                                <small>{{globalLabel['tips']['selcPriority']}}</small>
+                            </div>
+
+                            <div class="col-sm-4"  *ngIf="fieldData.fieldType == 'linkage'">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['linkageViews']}}</mat-label>
+                                    <input matInput  name="linkageViews" [(ngModel)]="fieldData.linkageViews"
+                                           #linkageViews="ngModel" required  maxlength="255">
+                                    <mat-error *ngIf="linkageViews.invalid">
+                                        <span *ngIf="linkageViews.errors.required" > {{moduleLabel['text']['linkageViews'] + globalLabel['tips']['requiredErr']}}</span>
+                                        <span *ngIf="!linkageViews.errors.required&&linkageViews.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + linkageViews.errors.maxlength['requiredLength']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                                <small>{{moduleLabel['tips']['inputPriority']}}</small>
+                            </div>
+
+                            <div class="col-sm-4"  *ngIf="fieldData.fieldType == 'linkage'">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['linkageKey']}}</mat-label>
+                                    <input matInput  name="linkageKey" [(ngModel)]="fieldData.linkageKey"
+                                           #linkageKey="ngModel" required  maxlength="255">
+                                    <mat-error *ngIf="linkageKey.invalid">
+                                        <span *ngIf="linkageKey.errors.required" > {{moduleLabel['text']['linkageKey'] + globalLabel['tips']['requiredErr']}}</span>
+                                        <span *ngIf="!linkageKey.errors.required&&linkageKey.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + linkageKey.errors.maxlength['requiredLength']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                                <small>{{moduleLabel['tips']['inputPriority']}}</small>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{globalLabel['text']['isDisplay']}}</mat-label>
+                                    <mat-select name="isDisplay" [(ngModel)]="fieldData.isDisplay" #isDisplay="ngModel">
+                                        <mat-option *ngFor="let d of displayList" [value]="d.optionId">{{d.optionName}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['isDisabled']}}</mat-label>
+                                    <mat-select name="isDisabled" [(ngModel)]="fieldData.isDisabled" #isDisabled="ngModel">
+                                        <mat-option *ngFor="let d of disabledList" [value]="d.optionId">{{d.optionName}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['isReadonly']}}</mat-label>
+                                    <mat-select name="isReadonly" [(ngModel)]="fieldData.isReadonly" #isReadonly="ngModel">
+                                        <mat-option *ngFor="let d of readonlyList" [value]="d.optionId">{{d.optionName}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-4" *ngIf="fieldType.value == 'select' || fieldType.value == 'autocomplete' || fieldType.value == 'multiselect'">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['selectTypeId']}}</mat-label>
+                                    <mat-select
+                                                [(ngModel)]="fieldData.selectTypeId" name="selectTypeId"
+                                                #selectTypeId="ngModel" required >
+                                        <mat-option *ngFor="let type of selectOptionList" [value]="type.typeId">
+                                            <ng-container *ngIf="lang == 'cn'">
+                                                {{type.typeNameCn}}
+                                            </ng-container>
+                                            <ng-container *ngIf="lang == 'tc'">
+                                                {{type.typeNameTc}}
+                                            </ng-container>
+                                            <ng-container *ngIf="lang == 'en'">
+                                                {{type.typeNameEn}}
+                                            </ng-container>
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="selectTypeId.invalid">
+                                        <span *ngIf="selectTypeId.errors.required" > {{moduleLabel['text']['selectTypeId'] + globalLabel['tips']['requiredErr']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <ng-container  *ngIf="fieldType.value">
+                                <div class="col-sm-4">
+                                    <mat-form-field  class="full-width">
+                                        <mat-select placeholder="{{moduleLabel['text']['validation']}}"
+                                                    name="validation" [(ngModel)]="fieldData.validation"
+                                                    #validation="ngModel" maxlength="200" multiple>
+                                            <mat-option *ngFor="let v of validationList" [value]="v">{{v}}</mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="validation.invalid">
+                                            <span *ngIf="validation.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + validation.errors.maxlength['requiredLength']}}</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-sm-4" *ngIf="onContain('min',validation.value)">
+                                    <mat-form-field class="full-width">
+                                        <mat-label>{{moduleLabel['text']['minValue']}}</mat-label>
+                                        <input matInput name="minValue" [(ngModel)]="fieldData.minValue"
+                                               placeholder="{{fieldType.value == 'date'? moduleLabel['text']['format']+':YYYY-MM-DD':''}}"
+                                               #minValue="ngModel" required  maxlength="11">
+                                        <mat-error *ngIf="minValue.invalid">
+                                            <span *ngIf="minValue.errors.required" > {{moduleLabel['text']['minValue'] + globalLabel['tips']['requiredErr']}}</span>
+                                            <span *ngIf="!minValue.errors.required&&minValue.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + minValue.errors.maxlength['requiredLength']}}</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-sm-4" *ngIf="onContain('max',validation.value)">
+                                    <mat-form-field class="full-width">
+                                        <mat-label>{{moduleLabel['text']['maxValue']}}</mat-label>
+                                        <input matInput name="maxValue" [(ngModel)]="fieldData.maxValue"
+                                               placeholder="{{fieldType.value == 'date'? moduleLabel['text']['format']+':YYYY-MM-DD':''}}"
+                                               #maxValue="ngModel" required  maxlength="11">
+                                        <mat-error *ngIf="maxValue.invalid">
+                                            <span *ngIf="maxValue.errors.required" > {{moduleLabel['text']['maxValue'] + globalLabel['tips']['requiredErr']}}</span>
+                                            <span *ngIf="!maxValue.errors.required&&maxValue.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + maxValue.errors.maxlength['requiredLength']}}</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-sm-4" *ngIf="onContain('min_length',validation.value)">
+                                    <mat-form-field class="full-width">
+                                        <mat-label>{{moduleLabel['text']['minLengthValue']}}</mat-label>
+                                        <input matInput name="minLengthValue" [(ngModel)]="fieldData.minLengthValue"
+                                               #minLengthValue="ngModel" required  maxlength="11">
+                                        <mat-error *ngIf="minLengthValue.invalid">
+                                            <span *ngIf="minLengthValue.errors.required" > {{moduleLabel['text']['minLengthValue'] + globalLabel['tips']['requiredErr']}}</span>
+                                            <span *ngIf="!minLengthValue.errors.required&&minLengthValue.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + minLengthValue.errors.maxlength['requiredLength']}}</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-sm-4" *ngIf="onContain('max_length',validation.value)">
+                                    <mat-form-field class="full-width">
+                                        <mat-label>{{moduleLabel['text']['maxLengthValue']}}</mat-label>
+                                        <input matInput name="maxLengthValue" [(ngModel)]="fieldData.maxLengthValue"
+                                               #maxLengthValue="ngModel" required  maxlength="11">
+                                        <mat-error *ngIf="maxLengthValue.invalid">
+                                            <span *ngIf="maxLengthValue.errors.required" > {{moduleLabel['text']['maxLengthValue'] + globalLabel['tips']['requiredErr']}}</span>
+                                            <span *ngIf="!maxLengthValue.errors.required&&maxLengthValue.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + maxLengthValue.errors.maxlength['requiredLength']}}</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-sm-4"  *ngIf="fieldType.value == 'text'">
+                                    <mat-form-field class="full-width">
+                                        <mat-label>{{moduleLabel['text']['pattern']}}</mat-label>
+                                        <input matInput placeholder="{{moduleLabel['text']['enRegExp']}}"
+                                               name="pattern" [(ngModel)]="fieldData.pattern"
+                                               #pattern="ngModel"  maxlength="200">
+                                        <mat-error *ngIf="pattern.invalid">
+                                            <span *ngIf="pattern.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + pattern.errors.maxlength['requiredLength']}}</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </ng-container>
+                        </div>
+
+                        <div class="form-group row m-t-2">
+                            <div class="col-12">
+                                <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="button"
+                                        (click)="onAdd()" [disabled]="fieldAddForm.form.invalid">
+                                    {{globalLabel['text']['save']}}
+                                </button>
+                                <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="button"
+                                        (click)="onReset()" [disabled]="fieldAddForm.form.pristine"
+                                >{{globalLabel['text']['btnReset']}}</button>
+                            </div>
+                        </div>
+                    </ng-container>
+                </form><!--End Add Form-->
+
+                <!-- Detail Form-->
+                <form #fieldDetailForm="ngForm">
+                    <ng-container  *ngIf="fieldPageType == 'detail'">
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['fieldLabel']}}</mat-label>
+                                    <input matInput placeholder="{{moduleLabel['tips']['lowerCamel']}}"
+                                           name="fieldLabel" [(ngModel)]="fieldData.fieldLabel"
+                                           #fieldLabel="ngModel" required  maxlength="200">
+                                    <mat-error *ngIf="fieldLabel.invalid">
+                                        <span *ngIf="fieldLabel.errors.required" > {{moduleLabel['text']['fieldLabel'] + globalLabel['tips']['requiredErr']}}</span>
+                                        <span *ngIf="!fieldLabel.errors.required&&fieldLabel.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + fieldLabel.errors.maxlength['requiredLength']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <mat-form-field class="full-width">
+                                    <mat-select placeholder="{{moduleLabel['text']['fieldType']}}"
+                                                [(ngModel)]="fieldData.fieldType" name="fieldType"
+                                                #fieldType="ngModel" (selectionChange)="onChangeFieldType(fieldData)" required >
+                                        <mat-option *ngFor="let type of typeList" [value]="type">
+                                            {{type}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="fieldType.invalid">
+                                        <span *ngIf="fieldType.errors.required" > {{moduleLabel['text']['fieldType'] + globalLabel['tips']['requiredErr']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-4"  *ngIf="fieldData.fieldType == 'linkage'">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['linkageModule']}}</mat-label>
+                                    <mat-select name="linkageModule" [(ngModel)]="fieldData.linkageModule"
+                                                #linkageModule="ngModel" multiple required
+                                                (selectionChange)="linkageModuleChange($event)">
+                                        <mat-select-trigger *ngIf="fieldData.linkageModule">
+                                            <ng-container *ngFor="let f of fieldData.linkageModule;let fIndex = index">
+                                                <ng-container *ngFor="let m of moduleList">
+                                                    <ng-container *ngIf="m.moduleName == f">
+                                                        {{m.labelText}}<ng-container *ngIf="(fIndex+1) != fieldData.linkageModule.length">,</ng-container>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                        </mat-select-trigger>
+                                        <mat-option *ngFor="let m of moduleList" [value]="m.moduleName">
+                                            {{m.labelText}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="linkageModule.invalid">
+                                        <span *ngIf="linkageModule.errors.required" > {{moduleLabel['text']['linkageModule'] + globalLabel['tips']['requiredErr']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                                <small>{{globalLabel['tips']['selcPriority']}}</small>
+                            </div>
+
+                            <div class="col-sm-4"  *ngIf="fieldData.fieldType == 'linkage'">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['linkageViews']}}</mat-label>
+                                    <input matInput  name="linkageViews" [(ngModel)]="fieldData.linkageViews"
+                                           #linkageViews="ngModel" required  maxlength="255">
+                                    <mat-error *ngIf="linkageViews.invalid">
+                                        <span *ngIf="linkageViews.errors.required" > {{moduleLabel['text']['linkageViews'] + globalLabel['tips']['requiredErr']}}</span>
+                                        <span *ngIf="!linkageViews.errors.required&&linkageViews.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + linkageViews.errors.maxlength['requiredLength']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                                <small>{{moduleLabel['tips']['inputPriority']}}</small>
+                            </div>
+
+                            <div class="col-sm-4"  *ngIf="fieldData.fieldType == 'linkage'">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['linkageKey']}}</mat-label>
+                                    <input matInput  name="linkageKey" [(ngModel)]="fieldData.linkageKey"
+                                           #linkageKey="ngModel" required  maxlength="255">
+                                    <mat-error *ngIf="linkageKey.invalid">
+                                        <span *ngIf="linkageKey.errors.required" > {{moduleLabel['text']['linkageKey'] + globalLabel['tips']['requiredErr']}}</span>
+                                        <span *ngIf="!linkageKey.errors.required&&linkageKey.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + linkageKey.errors.maxlength['requiredLength']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                                <small>{{moduleLabel['tips']['inputPriority']}}</small>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{globalLabel['text']['isDisplay']}}</mat-label>
+                                    <mat-select name="isDisplay" [(ngModel)]="fieldData.isDisplay" #isDisplay="ngModel">
+                                        <mat-option *ngFor="let d of displayList" [value]="d.optionId">{{d.optionName}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['isDisabled']}}</mat-label>
+                                    <mat-select name="isDisabled" [(ngModel)]="fieldData.isDisabled" #isDisabled="ngModel">
+                                        <mat-option *ngFor="let d of disabledList" [value]="d.optionId">{{d.optionName}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['isReadonly']}}</mat-label>
+                                    <mat-select name="isReadonly" [(ngModel)]="fieldData.isReadonly" #isReadonly="ngModel">
+                                        <mat-option *ngFor="let d of readonlyList" [value]="d.optionId">{{d.optionName}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <ng-container  *ngIf="fieldType.value">
+                                <div class="col-sm-4">
+                                    <mat-form-field  class="full-width">
+                                        <mat-select placeholder="{{moduleLabel['text']['validation']}}"
+                                                    name="validation" [(ngModel)]="fieldData.validation"
+                                                    #validation="ngModel" maxlength="200" multiple>
+                                            <mat-option *ngFor="let v of validationList" [value]="v">{{v}}</mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="validation.invalid">
+                                            <span *ngIf="validation.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + validation.errors.maxlength['requiredLength']}}</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+
+                                <div class="col-sm-4" *ngIf="onContain('min',validation.value)">
+                                    <mat-form-field class="full-width">
+                                        <mat-label>{{moduleLabel['text']['minValue']}}</mat-label>
+                                        <input matInput name="minValue" [(ngModel)]="fieldData.minValue"
+                                               #minValue="ngModel" required  maxlength="11">
+                                        <mat-error *ngIf="minValue.invalid">
+                                            <span *ngIf="minValue.errors.required" > {{moduleLabel['text']['minValue'] + globalLabel['tips']['requiredErr']}}</span>
+                                            <span *ngIf="!minValue.errors.required&&minValue.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + minValue.errors.maxlength['requiredLength']}}</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-sm-4" *ngIf="onContain('max',validation.value)">
+                                    <mat-form-field class="full-width">
+                                        <mat-label>{{moduleLabel['text']['maxValue']}}</mat-label>
+                                        <input matInput name="maxValue" [(ngModel)]="fieldData.maxValue"
+                                               #maxValue="ngModel" required  maxlength="11">
+                                        <mat-error *ngIf="maxValue.invalid">
+                                            <span *ngIf="maxValue.errors.required" > {{moduleLabel['text']['maxValue'] + globalLabel['tips']['requiredErr']}}</span>
+                                            <span *ngIf="!maxValue.errors.required&&maxValue.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + maxValue.errors.maxlength['requiredLength']}}</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-sm-4" *ngIf="onContain('min_length',validation.value)">
+                                    <mat-form-field class="full-width">
+                                        <mat-label>{{moduleLabel['text']['minLengthValue']}}</mat-label>
+                                        <input matInput name="minLengthValue" [(ngModel)]="fieldData.minLengthValue"
+                                               #minLengthValue="ngModel" required  maxlength="11">
+                                        <mat-error *ngIf="minLengthValue.invalid">
+                                            <span *ngIf="minLengthValue.errors.required" > {{moduleLabel['text']['minLengthValue'] + globalLabel['tips']['requiredErr']}}</span>
+                                            <span *ngIf="!minLengthValue.errors.required&&minLengthValue.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + minLengthValue.errors.maxlength['requiredLength']}}</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-sm-4" *ngIf="onContain('max_length',validation.value)">
+                                    <mat-form-field class="full-width">
+                                        <mat-label>{{moduleLabel['text']['maxLengthValue']}}</mat-label>
+                                        <input matInput name="maxLengthValue" [(ngModel)]="fieldData.maxLengthValue"
+                                               #maxLengthValue="ngModel" required  maxlength="11">
+                                        <mat-error *ngIf="maxLengthValue.invalid">
+                                            <span *ngIf="maxLengthValue.errors.required" > {{moduleLabel['text']['maxLengthValue'] + globalLabel['tips']['requiredErr']}}</span>
+                                            <span *ngIf="!maxLengthValue.errors.required&&maxLengthValue.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + maxLengthValue.errors.maxlength['requiredLength']}}</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-sm-4" *ngIf="fieldType.value == 'text'">
+                                    <mat-form-field class="full-width">
+                                        <input matInput placeholder="{{moduleLabel['text']['pattern']}}"
+                                               name="pattern" [(ngModel)]="fieldData.pattern"
+                                               #pattern="ngModel"  maxlength="200">
+                                        <mat-error *ngIf="pattern.invalid">
+                                            <span *ngIf="pattern.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + pattern.errors.maxlength['requiredLength']}}</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-sm-4" *ngIf="fieldType.value == 'select' || fieldType.value == 'autocomplete' || fieldType.value == 'multiselect'">
+                                    <mat-form-field class="full-width">
+                                        <mat-select placeholder="{{moduleLabel['text']['selectTypeId']}}"
+                                                    [(ngModel)]="fieldData.selectTypeId" name="selectTypeId"
+                                                    #selectTypeId="ngModel" required >
+                                            <mat-option *ngFor="let type of selectOptionList" [value]="type.typeId">
+                                                <ng-container *ngIf="lang == 'cn'">
+                                                    {{type.typeNameCn}}
+                                                </ng-container>
+                                                <ng-container *ngIf="lang == 'tc'">
+                                                    {{type.typeNameTc}}
+                                                </ng-container>
+                                                <ng-container *ngIf="lang == 'en'">
+                                                    {{type.typeNameEn}}
+                                                </ng-container>
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="selectTypeId.invalid">
+                                            <span *ngIf="selectTypeId.errors.required" > {{moduleLabel['text']['selectTypeId'] + globalLabel['tips']['requiredErr']}}</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </ng-container>
+                        </div>
+
+                        <div class="form-group row m-t-2">
+                            <div class="col-12">
+                                <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="button"
+                                        (click)="onUpdate()" [disabled]="fieldDetailForm.form.invalid">
+                                    {{globalLabel['text']['save']}}
+                                </button>
+                                <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="button"
+                                        (click)="onReset()" [disabled]="fieldDetailForm.form.pristine"
+                                >{{globalLabel['text']['btnReset']}}</button>
+                            </div>
+                        </div>
+                    </ng-container>
+                </form><!--End Detail Form-->
+
+
+            </div>
+        </div>
+    </article>
+</section>

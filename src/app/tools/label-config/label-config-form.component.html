@@ -1,0 +1,81 @@
+<section class="container-fluid field-tab" minheight>
+    <article class="article">
+        <div class="box box-default m-t">
+            <div class="box-body">
+                <form #labelForm="ngForm">
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['labelTextCn']}}</mat-label>
+                                <input matInput
+                                       name="labelTextCn" [(ngModel)]="labelData.labelTextCn"
+                                       #labelTextCn="ngModel" required  maxlength="500">
+                                <mat-error *ngIf="labelTextCn.invalid">
+                                    <span *ngIf="labelTextCn.errors.required" > {{moduleLabel['text']['labelTextCn'] + globalLabel['tips']['requiredErr']}}</span>
+                                    <span *ngIf="!labelTextCn.errors.required&&labelTextCn.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + labelTextCn.errors.maxlength['requiredLength']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['labelTextTc']}}</mat-label>
+                                <input matInput
+                                       name="labelTextTc" [(ngModel)]="labelData.labelTextTc"
+                                       #labelTextTc="ngModel" required  maxlength="500">
+                                <mat-error *ngIf="labelTextTc.invalid">
+                                    <span *ngIf="labelTextTc.errors.required" > {{moduleLabel['text']['labelTextTc'] + globalLabel['tips']['requiredErr']}}</span>
+                                    <span *ngIf="!labelTextTc.errors.required&&labelTextTc.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + labelTextTc.errors.maxlength['requiredLength']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['labelTextEn']}}</mat-label>
+                                <input matInput
+                                       name="labelTextEn" [(ngModel)]="labelData.labelTextEn"
+                                       #labelTextEn="ngModel" required  maxlength="500">
+                                <mat-error *ngIf="labelTextEn.invalid">
+                                    <span *ngIf="labelTextEn.errors.required" > {{moduleLabel['text']['labelTextEn'] + globalLabel['tips']['requiredErr']}}</span>
+                                    <span *ngIf="!labelTextEn.errors.required&&labelTextEn.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + labelTextEn.errors.maxlength['requiredLength']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row" *ngIf="pageType == 'add'">
+                        <div class="col-sm-4">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['labelOrginal']}}</mat-label>
+                                <input matInput
+                                       name="labelOrginal" [(ngModel)]="labelData.labelOrginal"
+                                       #labelOrginal="ngModel" required  maxlength="500">
+                                <mat-error *ngIf="labelOrginal.invalid">
+                                    <span *ngIf="labelOrginal.errors.required" > {{moduleLabel['text']['labelOrginal'] + globalLabel['tips']['requiredErr']}}</span>
+                                    <span *ngIf="!labelOrginal.errors.required&&labelOrginal.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + labelOrginal.errors.maxlength['requiredLength']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row m-t-2">
+                        <div class="col-12">
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="button"
+                                    (click)="onSaveLabel()" [disabled]="labelForm.form.invalid">
+                                {{globalLabel['text']['save']}}
+                            </button>
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="button"
+                                    (click)="onReset()" [disabled]="labelForm.form.pristine"
+                            >{{globalLabel['text']['btnReset']}}</button>
+                        </div>
+                    </div>
+                </form><!--End Detail Form-->
+
+
+            </div>
+        </div>
+    </article>
+</section>

@@ -1,0 +1,42 @@
+<ng-container *ngIf="type == 'search'">
+    <mat-form-field class="full-width">
+        <mat-label>{{field.labelText}}</mat-label>
+        <input matInput
+               [matAutocomplete]="auto"
+               [formControl]="ctrl"
+        >
+    </mat-form-field>
+
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="getDisplayFn()">
+        <mat-option *ngFor="let opt of filteredOptions | async" [value]="opt.optionId">
+            {{opt.optionName}}
+        </mat-option>
+    </mat-autocomplete>
+</ng-container>
+
+
+<ng-container *ngIf="type == 'form'">
+    <mat-form-field class="full-width">
+        <mat-label>{{field.labelText}}</mat-label>
+        <input matInput
+           [required]="field.validation?.indexOf('required')>-1?true:false"
+           [matAutocomplete]="auto"
+           [formControl]="ctrl"
+       >
+
+        <mat-error *ngIf="ctrl.invalid && (ctrl.touched ||ctrl.dirty )">
+            <module-error
+                    [ctrl]="ctrl"
+                    [field]="field"
+                    [moduleLabel]="moduleLabel"
+                    [globalLabel]="globalLabel"
+            ></module-error>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="getDisplayFn()">
+        <mat-option *ngFor="let opt of filteredOptions | async" [value]="opt.optionId">
+            {{opt.optionName}}
+        </mat-option>
+    </mat-autocomplete>
+</ng-container>

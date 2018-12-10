@@ -1,0 +1,47 @@
+.field:hover{
+    text-decoration: underline;
+    color: #2196f3;
+    cursor: pointer;
+}
+
+.field-tab .form-group.row .col-sm-4{
+    margin-bottom: 1rem;
+}
+
+.refresh{
+    float: right;
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    color: #66bb6a;
+    cursor: pointer;
+}
+
+@-webkit-keyframes rotation{
+    from {-webkit-transform: rotate(0deg);}
+    to {-webkit-transform: rotate(360deg);}
+}
+
+.rotation{
+    -webkit-transform: rotate(360deg);
+    animation: rotation 1s linear infinite;
+    -moz-animation: rotation 1s linear infinite;
+    -webkit-animation: rotation 1s linear infinite;
+    -o-animation: rotation 1s linear infinite;
+}
+.add-relational{
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.update-relational{
+    cursor: pointer;
+    color:#2196f3;
+}
+.clear-icon{
+    float: right;
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    color: #ef5350;
+    cursor: pointer;
+}

@@ -1,0 +1,172 @@
+<section class="page-with-tabs">
+    <mat-tab-group [selectedIndex]="selectedIndex" (selectedIndexChange)="onIndexChange($event)"
+                   (selectedTabChange)="onTabsChange($event)" *ngIf="globalLabel && moduleLabel">
+        <mat-tab label="{{globalLabel['text']['listConf']}}">
+            <section class="container-fluid" minheight>
+                <article class="article">
+                    <div class="box box-default m-t">
+                        <div class="box-header">{{globalLabel['text']['btnSearch']}}</div>
+                        <div class="box-divider"></div>
+                        <div class="box-body">
+                            <form [formGroup]="searchForm" novalidate *ngIf="searchFieldList">
+                                <div class="form-group row">
+                                    <ng-container *ngFor="let search of searchFieldList">
+                                        <ng-container *ngIf="search.isDisplay == 29">
+                                            <div class="col-sm-3">
+                                                <ng-container [ngSwitch]="search.fieldType">
+
+                                                    <ng-container *ngSwitchCase="'text'">
+                                                        <mat-form-field class="full-width">
+                                                            <mat-label>{{search.labelText}}</mat-label>
+                                                            <input matInput [formControlName]="search.fieldLabel">
+                                                        </mat-form-field>
+                                                    </ng-container>
+
+                                                    <ng-container *ngSwitchCase="'select'">
+                                                        <mat-form-field class="full-width">
+                                                            <mat-label>{{search.labelText}}</mat-label>
+                                                            <mat-select [formControlName]="search.fieldLabel" >
+                                                                <mat-option *ngFor="let opt of optionList[search.fieldLabel]" [value]="opt.optionId">
+                                                                    {{opt.optionName}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </ng-container>
+
+                                                    <ng-container *ngSwitchCase="'multiselect'">
+                                                        <mat-form-field class="full-width">
+                                                            <mat-label>{{search.labelText}}</mat-label>
+                                                            <mat-select [formControlName]="search.fieldLabel" multiple>
+                                                                <mat-option *ngFor="let opt of optionList[search.fieldLabel]" [value]="opt.optionId">
+                                                                    {{opt.optionName}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </ng-container>
+
+                                                    <ng-container *ngSwitchCase="'autocomplete'">
+                                                        <ng-container *ngIf="optionList[search.fieldLabel]">
+                                                            <module-autocomplete
+                                                                    [ctrl]="searchForm.controls[search.fieldLabel]"
+                                                                    [optionList]="optionList[search.fieldLabel]"
+                                                                    [field]="search"
+                                                                    [type]="'search'"
+                                                                    [moduleLabel]="moduleLabel"
+                                                                    [globalLabel]="globalLabel" >
+                                                            </module-autocomplete>
+                                                        </ng-container>
+                                                    </ng-container>
+
+                                                    <ng-container *ngSwitchCase="'date'">
+                                                        <module-datepicker
+                                                                [ctrl]="searchForm.controls[search.fieldLabel]"
+                                                                [field]="search"
+                                                                [type]="'search'"
+                                                                [moduleLabel]="moduleLabel"
+                                                                [globalLabel]="globalLabel" >
+                                                        </module-datepicker>
+
+                                                    </ng-container>
+
+                                                </ng-container>
+                                            </div>
+                                        </ng-container>
+                                    </ng-container>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-12">
+                                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="button"
+                                                (click)="onSearch()">
+                                            {{globalLabel['text']['btnSearch']}}
+                                        </button>
+                                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="reset"
+                                                [disabled]="searchForm.pristine">
+                                            {{globalLabel['text']['btnReset']}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="box box-default">
+                        <div class="box-header" id="list" >{{globalLabel['text']['list']}}</div>
+                        <div [ngClass]="{'box-divider':auth.rightInsert || auth.rightDelete}"></div>
+                        <div class="box-body">
+                            <div [ngClass]="{'row m-b':auth.rightInsert || auth.rightDelete}">
+                                <div class="col-12">
+
+                                    <button mat-raised-button  color="accent" class="btn-w-xs"
+                                            *ngIf="auth.rightInsert" (click)="onAdd()">
+                                        {{globalLabel['text']['btnAdd']}}
+                                    </button>
+                                    <button mat-raised-button  color="warn" class="btn-w-xs"
+                                            *ngIf="auth.rightDelete" [disabled]="isBtnDelete" (click)="onDelete()">
+                                        {{globalLabel['text']['btnDel']}}
+                                    </button>
+
+                                </div>
+                            </div>
+
+                            <div class="table-responsive" *ngIf="gridFieldList">
+                                <table datatable [dtOptions]="dtOptions" class="table table-striped" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th *ngFor="let grid of gridFieldList">{{grid.labelText}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </mat-tab>
+
+        <mat-tab label="{{pageType=='add'?globalLabel['text']['btnAdd']:globalLabel['text']['detail']}}" *ngIf="isDisplay">
+            <my-module-form
+                    [pageType]="pageType"
+                    [moduleLabel]="moduleLabel"
+                    [globalLabel]="globalLabel"
+                    [formFieldList]="formFieldList"
+                    [optionList]="optionList"
+                    [moduleForm]="moduleForm"
+                    [moduleData]="moduleData"
+                    [moduleName]="moduleName"
+                    [keyId]="openId"
+                    (onReload)="onReload($event)"
+                    (onLinkRelation)="onLinkRelation($event)"
+            >
+            </my-module-form>
+        </mat-tab>
+
+
+        <ng-container *ngFor="let r of relationalContainerList;let i = index" [attr.data-index]="i">
+            <mat-tab label="{{r.name}}" moduleTabsClose [index]="i" (onClear)="onClear($event)" >
+
+                <ng-container [ngSwitch]="r.relationalName">
+                    <ng-container *ngSwitchCase="'quotation'">
+                        <my-quotation-form *ngIf="relationalLabel"
+                                           [relationalData]="r"
+                                           [pageType]="'detail'"
+                                           [moduleLabel]="relationalLabel"
+                                           [globalLabel]="globalLabel"
+                                           (onLinkRelation)="onLinkRelation($event)"
+                        ></my-quotation-form>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        <my-module-relational
+                                [relationalData]="r"
+                                (onLinkRelation)="onLinkRelation($event)"
+                        ></my-module-relational>
+                    </ng-container>
+                </ng-container>
+            </mat-tab>
+        </ng-container>
+
+    </mat-tab-group>
+</section>

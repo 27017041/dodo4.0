@@ -1,0 +1,35 @@
+<section class="app-overlay" mySearchOverlay>
+    <div class="app-overlay-inner">
+        <div class="overlay-header">
+            <a href="javascript:;" id="overlay-close" class="overlay-close">
+                <i class="material-icons">close</i>
+            </a>
+        </div>
+        <div class="overlay-content">
+            <input id="overlay-search-input"
+                   class="overlay-search-input"
+                   placeholder="{{moduleLabel?.text?.search}}..."
+                   [(ngModel)]="keyword"
+            >
+
+            <ng-container *ngIf="historyList.length > 0">
+                <div class="row m-t-2">
+                    <div class="col-6">
+                        <h4>{{moduleLabel?.text?.history}}</h4>
+                    </div>
+                    <div class="col-6 text-right">
+                        <h4><mat-icon class="c-p" (click)="removeAll()">delete forever</mat-icon></h4>
+                    </div>
+                </div>
+
+                <mat-list>
+                    <ng-container *ngFor="let h of historyList">
+                        <mat-list-item class="c-p" (click)="onSelectHistory(h)">{{h}}</mat-list-item>
+                        <mat-divider></mat-divider>
+                    </ng-container>
+                </mat-list>
+            </ng-container>
+
+        </div>
+    </div>
+</section>

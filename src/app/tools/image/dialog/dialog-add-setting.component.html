@@ -1,0 +1,50 @@
+<h2 mat-dialog-title>
+    {{moduleLabel['text']['imgSetting']}}
+</h2>
+
+<form [formGroup]="settingForm" novalidate class="settingForm">
+    <mat-dialog-content>
+        <mat-form-field class="full-width m-b">
+            <mat-label>{{moduleLabel['text']['confName']}}</mat-label>
+            <input matInput formControlName="confName" required/>
+            <mat-error *ngIf="settingForm.controls.confName.invalid">
+                <span *ngIf="settingForm.controls.confName.errors.required" > {{moduleLabel['text']['confName'] + globalLabel['tips']['requiredErr']}}</span>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width m-b">
+            <mat-label>{{moduleLabel['text']['width']}}</mat-label>
+            <input matInput name="width" formControlName="width" required/>
+            <mat-error *ngIf="settingForm.controls.width.invalid">
+                <span *ngIf="settingForm.controls.width.errors.required" > {{moduleLabel['text']['width'] + globalLabel['tips']['requiredErr']}}</span>
+                <span *ngIf="!settingForm.controls.width.errors.required && settingForm.controls.width.errors.pattern" > {{globalLabel['tips']['patternErr'] + settingForm.controls.width.errors.pattern['requiredPattern']}}</span>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width m-b">
+            <mat-label>{{moduleLabel['text']['height']}}</mat-label>
+            <input matInput name="height" formControlName="height" required/>
+            <mat-error *ngIf="settingForm.controls.height.invalid">
+                <span *ngIf="settingForm.controls.height.errors.required" > {{moduleLabel['text']['height'] + globalLabel['tips']['requiredErr']}}</span>
+                <span *ngIf="!settingForm.controls.height.errors.required && settingForm.controls.height.errors.pattern" > {{globalLabel['tips']['patternErr'] + settingForm.controls.height.errors.pattern['requiredPattern']}}</span>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width m-b">
+            <mat-label>{{moduleLabel['text']['quality']}} </mat-label>
+            <input matInput name="quality" formControlName="quality" required/>
+            <mat-error *ngIf="settingForm.controls.quality.invalid">
+                <span *ngIf="settingForm.controls.quality.errors.required" > {{moduleLabel['text']['quality'] + globalLabel['tips']['requiredErr']}}</span>
+                <span *ngIf="!settingForm.controls.quality.errors.required && settingForm.controls.quality.errors.min" > {{globalLabel['tips']['minValErr'] + settingForm.controls.quality.errors.min.min}}</span>
+                <span *ngIf="!settingForm.controls.quality.errors.required && settingForm.controls.quality.errors.max" > {{globalLabel['tips']['maxValErr'] + settingForm.controls.quality.errors.max.max}}</span>
+                <span *ngIf="!settingForm.controls.quality.errors.required && settingForm.controls.quality.errors.pattern" > {{globalLabel['tips']['patternErr'] + settingForm.controls.quality.errors.pattern['requiredPattern']}}</span>
+            </mat-error>
+        </mat-form-field>
+
+    </mat-dialog-content>
+
+    <div md-dialog-actions class="text-right">
+        <button mat-button (click)="dialogRef.close(0)">{{globalLabel.text.no}}</button>
+        <button mat-button color="accent" (click)="dialogRef.close(setting)" [disabled]="settingForm.invalid">{{globalLabel.text.yes}}</button>
+    </div>
+</form>

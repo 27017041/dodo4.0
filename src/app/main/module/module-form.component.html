@@ -1,0 +1,191 @@
+<section class="container-fluid" minheight>
+    <article class="article">
+        <div class="box box-default m-t">
+            <div class="box-body">
+                <form [formGroup]="moduleForm" novalidate *ngIf="formFieldList">
+                    <div class="form-group row">
+                        <ng-container *ngFor="let module of formFieldList">
+                            <ng-container *ngIf="module.isDisplay == 29">
+                                <div class="col-sm-3 m-b">
+                                    <ng-container [ngSwitch]="module.fieldType">
+                                        <ng-container *ngSwitchCase="'text'">
+                                            <mat-form-field class="full-width">
+                                                <mat-label>{{module.labelText}}</mat-label>
+                                                <input matInput [formControlName]="module.fieldLabel"
+                                                       [readonly]="module.isReadonly==87?true:false"
+                                                       [required]="module.validation?.indexOf('required')>-1?true:false">
+                                                <mat-error *ngIf="moduleForm.controls[module.fieldLabel].invalid && (moduleForm.controls[module.fieldLabel].touched || moduleForm.controls[module.fieldLabel].dirty )">
+                                                    <module-error
+                                                            [ctrl]="moduleForm.controls[module.fieldLabel]"
+                                                            [field]="module"
+                                                            [moduleLabel]="moduleLabel"
+                                                            [globalLabel]="globalLabel"
+                                                    ></module-error>
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </ng-container>
+
+                                        <ng-container *ngSwitchCase="'select'">
+                                            <mat-form-field class="full-width">
+                                                <mat-label>{{module.labelText}}</mat-label>
+                                                <mat-select [formControlName]="module.fieldLabel" [required]="module.validation?.indexOf('required')>-1?true:false">
+                                                    <mat-option *ngFor="let opt of optionList[module.fieldLabel]" [value]="opt.optionId">
+                                                        {{opt.optionName}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error *ngIf="moduleForm.controls[module.fieldLabel].invalid && (moduleForm.controls[module.fieldLabel].touched || moduleForm.controls[module.fieldLabel].dirty )">
+                                                    <module-error
+                                                        [ctrl]="moduleForm.controls[module.fieldLabel]"
+                                                        [field]="module"
+                                                        [moduleLabel]="moduleLabel"
+                                                        [globalLabel]="globalLabel"
+                                                    ></module-error>
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </ng-container>
+
+                                        <ng-container *ngSwitchCase="'multiselect'">
+                                            <mat-form-field class="full-width">
+                                                <mat-label>{{module.labelText}}</mat-label>
+                                                <mat-select [formControlName]="module.fieldLabel" multiple
+                                                            [required]="module.validation?.indexOf('required')>-1?true:false">
+                                                    <mat-option *ngFor="let opt of optionList[module.fieldLabel]" [value]="opt.optionId">
+                                                        {{opt.optionName}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error *ngIf="moduleForm.controls[module.fieldLabel].invalid && (moduleForm.controls[module.fieldLabel].touched || moduleForm.controls[module.fieldLabel].dirty )">
+                                                    <module-error
+                                                            [ctrl]="moduleForm.controls[module.fieldLabel]"
+                                                            [field]="module"
+                                                            [moduleLabel]="moduleLabel"
+                                                            [globalLabel]="globalLabel"
+                                                    ></module-error>
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </ng-container>
+
+                                        <ng-container *ngSwitchCase="'autocomplete'">
+                                            <module-autocomplete
+                                                    [ctrl]="moduleForm.controls[module.fieldLabel]"
+                                                    [optionList]="optionList[module.fieldLabel]"
+                                                    [field]="module"
+                                                    [type]="'form'"
+                                                    [moduleLabel]="moduleLabel"
+                                                    [globalLabel]="globalLabel" >
+                                            </module-autocomplete>
+                                        </ng-container>
+
+                                        <ng-container *ngSwitchCase="'date'">
+                                            <module-datepicker
+                                                    [ctrl]="moduleForm.controls[module.fieldLabel]"
+                                                    [field]="module"
+                                                    [type]="'form'"
+                                                    [moduleLabel]="moduleLabel"
+                                                    [globalLabel]="globalLabel" >
+                                            </module-datepicker>
+                                        </ng-container>
+
+
+                                        <ng-container *ngSwitchCase="'textarea'">
+                                            <mat-form-field class="full-width">
+                                                <mat-label>{{module.labelText}}</mat-label>
+                                                <textarea matInput rows="1" [formControlName]="module.fieldLabel"
+                                                          [readonly]="module.isReadonly==87?true:false"
+                                                          [required]="module.validation?.indexOf('required')>-1?true:false"></textarea>
+                                                <mat-error *ngIf="moduleForm.controls[module.fieldLabel].invalid && (moduleForm.controls[module.fieldLabel].touched || moduleForm.controls[module.fieldLabel].dirty )">
+                                                    <module-error
+                                                            [ctrl]="moduleForm.controls[module.fieldLabel]"
+                                                            [field]="module"
+                                                            [moduleLabel]="moduleLabel"
+                                                            [globalLabel]="globalLabel"
+                                                    ></module-error>
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </ng-container>
+
+
+                                        <ng-container *ngSwitchCase="'linkage'">
+                                            <mat-form-field class="full-width">
+                                                <mat-label>{{module.labelText}}</mat-label>
+                                                <input matInput [formControlName]="module.fieldLabel"
+                                                       [readonly]="module.isReadonly==87?true:false"
+                                                       (click)="onLinkage()">
+                                            </mat-form-field>
+                                        </ng-container>
+
+
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="button"
+                                    (click)="onSave()" [disabled]="moduleForm.invalid">
+                                {{globalLabel['text']['save']}}
+                            </button>
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="reset"
+                                    (click)="onReset()" [disabled]="moduleForm.pristine">
+                                {{globalLabel['text']['btnReset']}}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <ng-container *ngIf="relationalList">
+            <ng-container *ngFor="let r of relationalList;let rIndex = index">
+                <div class="box box-default">
+                    <div class="box-header">{{globalLabel['text'][r.relationalName]}}</div>
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table datatable [dtOptions]="dtOptionsList[rIndex]" class="table table-striped" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <ng-container *ngIf="relationalFieldList">
+                                            <ng-container *ngFor="let field of relationalFieldList[rIndex]">
+                                                <th>
+                                                    <ng-container *ngIf="relationalLabelList[r.relationalName]">
+                                                        {{relationalLabelList[r.relationalName]["text"][field.fieldName]}}
+                                                    </ng-container>
+                                                </th>
+                                            </ng-container>
+
+                                            <ng-container *ngIf="r.isDelete || r.isHistory">
+                                                <th></th>
+                                            </ng-container>
+                                        </ng-container>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+
+            <!--<div class="box-body">
+                <table class="mdl-data-table">
+                    <thead>
+                        <tr>
+                            <th class="mdl-data-table__cell&#45;&#45;non-numeric">id</th>
+                            <th class="mdl-data-table__cell&#45;&#45;non-numeric">value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let form of companyList">
+                            <td class="mdl-data-table__cell&#45;&#45;non-numeric" (click)="onLick(form)">
+                                {{form.id}}
+                            </td>
+                            <td class="mdl-data-table__cell&#45;&#45;non-numeric">{{form.value}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>-->
+
+    </article>
+</section>

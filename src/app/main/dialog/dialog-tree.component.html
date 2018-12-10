@@ -1,0 +1,28 @@
+<mat-tab-group  [selectedIndex]="selectedIndex" (selectedTabChange)="onTabsChange($event)"
+                (selectedIndexChange)="onIndexChange($event)">
+    <mat-tab label="{{linkageTextList[i]}}" *ngFor="let module of linkageModuleList;let i = index" >
+        <mat-list>
+            <ng-container  *ngFor="let item of module">
+                <mat-list-item class="c-p">
+                    <mat-checkbox color="primary" [(ngModel)]="item.checked"
+                                  (change)="addList($event,item,i)">
+                        {{item.linkageName}}
+                    </mat-checkbox>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+            </ng-container>
+        </mat-list>
+    </mat-tab>
+</mat-tab-group>
+
+<ng-container *ngFor="let item of linkageData;let i = index">
+    <span>{{globalLabel["text"][item.moduleName]}}:{{item.linkageName}}
+        <mat-icon class="vertical-middle" *ngIf="i+1 < linkageData.length">trending_flat</mat-icon>
+    </span>
+</ng-container>
+
+
+<div md-dialog-actions class="m-t text-right">
+    <button mat-button (click)="onClose()">{{globalLabel.text.no}}</button>
+    <button mat-button color="accent" (click)="onSave()" [disabled]="linkageModuleLength != linkageData.length">{{globalLabel.text.yes}}</button>
+</div>

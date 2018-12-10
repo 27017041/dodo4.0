@@ -1,0 +1,93 @@
+<section class="page-with-tabs">
+    <mat-tab-group [selectedIndex]="selectedIndex" (selectedIndexChange)="onIndexChange($event)"
+                   (selectedTabChange)="onTabsChange($event)" *ngIf="globalLabel && moduleLabel">
+        <mat-tab label="{{globalLabel['text']['listConf']}}">
+            <section class="container-fluid" minheight>
+                <article class="article">
+                    <div class="box box-default m-t">
+                        <div class="box-header">{{globalLabel['text']['btnSearch']}}</div>
+                        <div class="box-divider"></div>
+                        <div class="box-body">
+                            <form #searchForm="ngForm">
+                                <div class="form-group row">
+                                    <div class="col-sm-3">
+                                        <mat-form-field class="full-width">
+                                            <input matInput placeholder="{{moduleLabel['text']['companyName']}}"
+                                                   name="companyName" [(ngModel)]="company.companyName">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <mat-form-field class="full-width">
+                                            <input matInput placeholder="{{moduleLabel['text']['companyEmail']}}"
+                                                   name="companyEmail" [(ngModel)]="company.companyEmail">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <mat-form-field class="full-width">
+                                            <input matInput placeholder="{{moduleLabel['text']['companyPhone']}}"
+                                                   name="companyPhone" [(ngModel)]="company.companyPhone">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-12">
+                                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" (click)="onSearch()" [disabled]="searchForm.form.invalid">{{globalLabel['text']['btnSearch']}}</button>
+                                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="reset">{{globalLabel['text']['btnReset']}}</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="box box-default">
+                        <div class="box-header" id="list" >{{globalLabel['text']['list']}}</div>
+                        <div [ngClass]="{'box-divider':auth.rightInsert || auth.rightDelete}"></div>
+                        <div class="box-body">
+                            <div [ngClass]="{'row m-b':auth.rightInsert || auth.rightDelete}">
+                                <div class="col-12">
+
+                                    <button mat-raised-button  color="accent" class="btn-w-xs"
+                                            *ngIf="auth.rightInsert" (click)="onAdd()">
+                                        {{globalLabel['text']['btnAdd']}}
+                                    </button>
+                                    <button mat-raised-button  color="warn" class="btn-w-xs"
+                                            *ngIf="auth.rightDelete" [disabled]="isBtnDelete" (click)="onDelete()">
+                                        {{globalLabel['text']['btnDel']}}
+                                    </button>
+
+                                </div>
+                            </div>
+
+                            <div class="table-responsive" >
+                                <table datatable [dtOptions]="dtOptions" class="table table-striped" cellspacing="0" width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>{{moduleLabel['text']['companyName']}}</th>
+                                        <th>{{moduleLabel['text']['companyEmail']}}</th>
+                                        <th>{{moduleLabel['text']['companyPhone']}}</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </article>
+            </section>
+        </mat-tab>
+        <mat-tab label="{{pageType=='add'?globalLabel['text']['btnAdd']:globalLabel['text']['detail']}}" *ngIf="isDisplay">
+            <my-company-form
+                    [pageType]="pageType"  [companyData]="companyData"
+                    [moduleLabel]="moduleLabel" [globalLabel]="globalLabel"
+                    (onReload)="onReload($event)"
+            >
+            </my-company-form>
+        </mat-tab>
+    </mat-tab-group>
+</section>

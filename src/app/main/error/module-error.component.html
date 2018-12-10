@@ -1,0 +1,26 @@
+
+<span *ngIf="ctrl.errors.required" >
+    {{ field.labelText + globalLabel['tips']['requiredErr'] }}
+</span>
+<span *ngIf="!ctrl.errors.required && ctrl.errors.email" >
+    {{ globalLabel['tips']['emailErr'] }}
+</span>
+<span *ngIf="!ctrl.errors.required && ctrl.errors.min" >
+    {{ globalLabel['tips']['minErr'] + ctrl.errors.min.min}}
+</span>
+<span *ngIf="!ctrl.errors.required && ctrl.errors.max" >
+    {{ globalLabel['tips']['maxErr'] + ctrl.errors.max.max }}
+</span>
+<span *ngIf="!ctrl.errors.required && ctrl.errors.minlength" >
+    {{ globalLabel['tips']['minLengthErr'] + ctrl.errors.minlength['requiredLength'] }}
+</span>
+<span *ngIf="!ctrl.errors.required && ctrl.errors.maxlength" >
+    {{ globalLabel['tips']['maxLengthErr'] + ctrl.errors.maxlength['requiredLength'] }}
+</span>
+<span *ngIf="!ctrl.errors.required && ctrl.errors.pattern" >
+    {{globalLabel['tips']['patternErr'] + ctrl.errors.pattern['requiredPattern']}}
+</span>
+<span *ngIf="!ctrl.errors.required && ctrl.errors.autocomplete" >
+    {{globalLabel['tips']['autocompleteErr']}}
+</span>
+

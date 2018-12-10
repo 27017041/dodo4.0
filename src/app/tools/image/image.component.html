@@ -1,0 +1,229 @@
+<section class="container-fluid" minheight  *ngIf="globalLabel && moduleLabel">
+    <article class="article">
+        <div class="box box-default m-t">
+            <div class="box-header">{{moduleLabel['text']['imgSetting']}}</div>
+            <div class="box-divider"></div>
+            <div class="box-body">
+                <div>
+                    <button mat-raised-button  color="accent" class="btn-w-xs"
+                            *ngIf="auth.rightInsert" (click)="onAdd()">
+                        {{globalLabel['text']['btnAdd']}}
+                    </button>
+                    <button mat-raised-button  color="warn" class="btn-w-xs"
+                        *ngIf="auth.rightDelete" [disabled]="!isDelBtn" (click)="onDelete()">
+                        {{globalLabel['text']['btnDel']}}
+                    </button>
+                </div>
+
+                <div class="m-t">
+                    <div class="box box-default table-box table-responsive mdl-shadow--2dp">
+                        <table class="mdl-data-table">
+                            <thead>
+                                <tr>
+                                    <th class="mdl-data-table__cell--non-numeric">#</th>
+                                    <th class="mdl-data-table__cell--non-numeric">{{moduleLabel['text']['confName']}}</th>
+                                    <th class="mdl-data-table__cell--non-numeric">{{moduleLabel['text']['width']}}</th>
+                                    <th class="mdl-data-table__cell--non-numeric">{{moduleLabel['text']['height']}}</th>
+                                    <th class="mdl-data-table__cell--non-numeric">{{moduleLabel['text']['quality']}}</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="settingList">
+                                <tr *ngFor="let setting of settingList" >
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        <mat-checkbox color="primary" (change)="onItemChange($event,setting)"></mat-checkbox>
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric">
+                                        <a class='c-p' (click)="onDetail(setting)">
+                                            <u class='text-primary'> {{setting.confName}}</u>
+                                        </a>
+                                    </td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{setting.width}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{setting.height}}</td>
+                                    <td class="mdl-data-table__cell--non-numeric">{{setting.quality}}</td>
+                                </tr>
+                                <tr *ngIf="settingList.length == 0">
+                                    <td colspan="5" class="text-center">
+                                        {{moduleLabel['tips']['noData']}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-default m-t">
+            <div class="box-header">{{moduleLabel['text']['waterSetting']}}</div>
+            <div class="box-divider"></div>
+            <div class="box-body">
+                <form #waterForm="ngForm">
+                    <div class="row">
+
+                        <div class="col-sm-3 m-b">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['type']}}</mat-label>
+                                <mat-select [(ngModel)]="watermark.type" name="type">
+                                    <mat-option *ngFor="let wt of wmTypeList" [value]="wt.optionKey">
+                                        {{wt.optionName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-3 m-b">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['position']}}</mat-label>
+                                <mat-select [(ngModel)]="watermark.position" name="position">
+                                    <mat-option *ngFor="let wt of wmPositionList" [value]="wt.optionKey">
+                                        {{wt.optionName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-3 m-b">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['scaling']}}</mat-label>
+                                <mat-select [(ngModel)]="watermark.scaling" name="scaling">
+                                    <mat-option *ngFor="let wt of wmScaleList" [value]="wt.optionKey">
+                                        {{wt.optionName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-3 m-b">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['size']}}</mat-label>
+                                <input matInput name="size" [(ngModel)]="watermark.size" />
+                            </mat-form-field>
+                        </div>
+
+
+                        <div class="col-sm-3 m-b">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['transparency']}}</mat-label>
+                                <input matInput name="transparency" [(ngModel)]="watermark.transparency"/>
+                            </mat-form-field>
+                        </div>
+
+                        <!--image-->
+                        <ng-container *ngIf="watermark.type == 'image'">
+                            <div class="col-sm-3 m-b" >
+                                    <a  mat-raised-button color="accent" class="btn-w-xs no-margin-left image-file"
+                                        role="button" href="javascript:;">
+                                        {{moduleLabel['text']['uploadImg']}}
+                                        <input imageUpload name="image"
+                                               accept="image/jpeg,image/jpg,image/png"
+                                               type="file" (selectImage)="onSelectImage($event)"/>
+                                    </a>
+                            </div>
+                            <div class="col-sm-3 m-b" *ngIf="watermark.url">
+                                <img [src]="watermark.url" class="img-fluid">
+                            </div>
+                        </ng-container>
+
+                        <!--text-->
+                        <ng-container *ngIf="watermark.type == 'text'">
+                            <div class="col-sm-3 m-b" >
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['text']}}</mat-label>
+                                    <input matInput name="text" [(ngModel)]="watermark.text" required #text="ngModel"/>
+                                    <mat-error *ngIf="text.invalid">
+                                        <span *ngIf="text.errors.required" > {{moduleLabel['text']['text'] + globalLabel['tips']['requiredErr']}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-3 m-b" >
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['textFont']}}</mat-label>
+                                    <mat-select [(ngModel)]="watermark.textFont" name="textFont">
+                                        <mat-option *ngFor="let wt of wmFontList" [value]="wt.optionKey">
+                                            {{wt.optionName}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-3 m-b" >
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['textSize']}}</mat-label>
+                                    <input matInput name="textSize" [(ngModel)]="watermark.textSize" />
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-3 m-b" >
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['textColor']}}</mat-label>
+                                    <mat-select [(ngModel)]="watermark.textColor" name="textColor">
+                                        <mat-option *ngFor="let wt of wmColorList" [value]="wt.optionKey">
+                                            {{wt.optionName}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-3 m-b" >
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['textBgColor']}}</mat-label>
+                                    <mat-select [(ngModel)]="watermark.textBgColor" name="textBgColor">
+                                        <mat-option *ngFor="let wt of wmColorList" [value]="wt.optionKey">
+                                            {{wt.optionName}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-3 m-b" >
+                                <mat-form-field class="full-width">
+                                    <mat-label>{{moduleLabel['text']['textMargin']}}</mat-label>
+                                    <input matInput name="textMargin" [(ngModel)]="watermark.textMargin" />
+                                </mat-form-field>
+                            </div>
+
+                        </ng-container>
+                    </div>
+
+                    <div class="form-group row m-t-2">
+                        <div class="col-12">
+                            <ng-container *ngIf="watermark.type == 'text'">
+                                <button mat-raised-button color="accent" class="btn-w-xs no-margin-left" type="button"
+                                        (click)="onPreview()" [disabled]="waterForm.form.invalid">
+                                    {{moduleLabel['text']['preview']}}
+                                </button>
+                            </ng-container>
+                            <ng-container *ngIf="watermark.type == 'image'">
+                                <button mat-raised-button color="accent" class="btn-w-xs no-margin-left" type="button"
+                                        (click)="onPreview()" [disabled]="waterForm.form.invalid || watermark.url == null">
+                                    {{moduleLabel['text']['preview']}}
+                                </button>
+                            </ng-container>
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="button"
+                                    (click)="onSaveWatermark()" [disabled]="waterForm.form.invalid">
+                                {{globalLabel['text']['save']}}
+                            </button>
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="button"
+                                    (click)="onReset()" [disabled]="waterForm.pristine"
+                            >{{globalLabel['text']['btnReset']}}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="box box-default m-t"  *ngIf="previewUrl">
+            <div class="box-header">Preview</div>
+            <div class="box-divider"></div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-3 m-b">
+                        <img [src]="previewUrl" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </article>
+</section>

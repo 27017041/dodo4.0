@@ -1,0 +1,104 @@
+<section class="page-with-tabs">
+    <mat-tab-group [selectedIndex]="selectedIndex" (selectedIndexChange)="onIndexChange($event)"
+                   (selectedTabChange)="onTabsChange($event)" *ngIf="globalLabel && moduleLabel">
+        <mat-tab label="{{globalLabel['text']['labelConf']}}">
+            <section class="container-fluid" minheight>
+                <article class="article">
+                    <div class="box box-default m-t">
+                        <div class="box-header">{{globalLabel['text']['btnSearch']}}</div>
+                        <div class="box-divider"></div>
+                        <div class="box-body">
+                            <form #searchForm="ngForm">
+                                <div class="form-group row">
+                                    <div class="col-sm-3">
+                                        <mat-form-field class="full-width">
+                                            <mat-select placeholder="{{moduleLabel['text']['labelTypeList']}}"  (selectionChange)="selectionChange($event)"
+                                                        [(ngModel)]="selectType.optionId" name="optionId" required>
+                                                <mat-option *ngFor="let type of labelTypeList" [value]="type.optionId" >
+                                                    <ng-container *ngIf="lang == 'cn'">
+                                                        {{type.optionNameCn}}
+                                                    </ng-container>
+                                                    <ng-container *ngIf="lang == 'tc'">
+                                                        {{type.optionNameTc}}
+                                                    </ng-container>
+                                                    <ng-container *ngIf="lang == 'en'">
+                                                        {{type.optionNameEn}}
+                                                    </ng-container>
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-sm-3" *ngIf="selectType.optionId">
+                                        <mat-form-field class="full-width">
+                                            <input matInput placeholder="{{moduleLabel['text']['labelText']}}"
+                                                   [(ngModel)]="selectType.labelText" name="labelText">
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-sm-3" *ngIf="selectType.optionId">
+                                        <mat-form-field class="full-width">
+                                            <input matInput placeholder="{{moduleLabel['text']['labelOrginal']}}"
+                                                   [(ngModel)]="selectType.labelOrginal" name="labelOrginal">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-12">
+                                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" (click)="onSearch()" [disabled]="searchForm.form.invalid">{{globalLabel['text']['btnSearch']}}</button>
+                                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" (click)="onReset(searchForm)"   [disabled]="!selectType.labelOrginal&&!selectType.labelText">
+                                            {{globalLabel['text']['btnReset']}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="box box-default" *ngIf="isSearch">
+                        <div class="box-header" id="list" >{{globalLabel['text']['list']}}</div>
+                        <div [ngClass]="{'box-divider':auth.rightInsert || auth.rightDelete}"></div>
+                        <div class="box-body">
+                            <div [ngClass]="{'row m-b':auth.rightInsert || auth.rightDelete}">
+                                <div class="col-12">
+                                    <button mat-raised-button  color="accent" class="btn-w-xs"
+                                            *ngIf="auth.rightInsert" (click)="onAddLabel()">
+                                        {{globalLabel['text']['btnAdd']}}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive" >
+                                <table datatable [dtOptions]="dtOptions" class="table table-striped" cellspacing="0" width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>{{moduleLabel['text']['labelText']}}</th>
+                                        <th>{{moduleLabel['text']['lang']}}</th>
+                                        <th>{{moduleLabel['text']['labelOrginal']}}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </article>
+            </section>
+        </mat-tab>
+
+        <mat-tab label="{{pageType=='add'?globalLabel['text']['btnAdd']:globalLabel['text']['detail']}}" *ngIf="isDisplay">
+            <my-label-form
+                    [pageType]="pageType"  [labelDetailData]="labelDetailData" [labelType]="labelType"
+                    [moduleLabel]="moduleLabel" [globalLabel]="globalLabel"
+                    (onReload)="onReload($event)"
+            >
+            </my-label-form>
+        </mat-tab>
+
+
+    </mat-tab-group>
+</section>

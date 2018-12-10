@@ -1,0 +1,71 @@
+<ul class="nav" myAccordionNav myAppendSubmenuIcon mySlimScroll myHighlightActiveItems
+    [ngClass]="{'complete': isComplete}" *ngIf="isComplete">
+
+    <ng-container *ngFor="let menu of menuList">
+        <ng-container *ngIf="menu.moduleName == 'dashboard' && menu.parentId == 0">
+            <li>
+                <a mat-button [routerLink]="['./',menu.menuLink]">
+                    <i class="nav-icon material-icons">{{menu.menuIcon}}</i>
+                    <span class="nav-text">{{menu.labelText}}</span>
+                </a>
+            </li>
+        </ng-container>
+
+
+        <ng-container *ngIf="menu.moduleName == 'customizer' && menu.parentId == 0">
+            <li>
+                <a mat-button href="javascript:;" myToggleQuickview="customizer">
+                    <i class="nav-icon material-icons">{{menu.menuIcon}}</i>
+                    <span class="nav-text">{{menu.labelText}}</span>
+                </a>
+            </li>
+
+            <li class="nav-divider"></li>
+        </ng-container>
+
+        <ng-container *ngIf="menu.parentId == 0 && menu.moduleName != 'customizer'
+            && menu.moduleName != 'dashboard' && menu.moduleName != 'message'
+            && menu.moduleName != 'globaSearch'">
+            <li>
+                <a mat-button href="#/app/{{menu.menuLink}}"><i
+                        class="nav-icon material-icons">{{menu.menuIcon}}</i><span
+                        class="nav-text">{{menu.labelText}}</span></a>
+                <ng-container *ngIf="menu.hasChilds == 1">
+                    <ul>
+                        <ng-container *ngFor="let child of menuList">
+                            <ng-container *ngIf="child.parentId == menu.menuId">
+                                <li>
+                                    <a mat-button class="md-button prepend-icon"
+                                       [routerLink]="['./',menu.menuLink,child.menuLink]">
+                                        <span>{{child.labelText}}</span>
+                                    </a>
+                                </li>
+                            </ng-container>
+                        </ng-container>
+                    </ul>
+                </ng-container>
+            </li>
+        </ng-container>
+
+        <ng-container *ngIf="menu.moduleName == 'message' && menu.parentId == 0">
+            <li class="nav-divider"></li>
+
+            <li>
+                <a mat-button [routerLink]="['./',menu.menuLink]">
+                    <i class="nav-icon material-icons">{{menu.menuIcon}}</i>
+                    <span class="nav-text">{{menu.labelText}}</span>
+                </a>
+            </li>
+
+            <li>
+                <a mat-button (click)="logout()">
+                    <i class="nav-icon material-icons">keyboard_return</i>
+                    <span class="nav-text" *ngIf="globalLabel">{{globalLabel['text']['logout']}}</span>
+                </a>
+            </li>
+        </ng-container>
+
+    </ng-container>
+
+
+</ul>

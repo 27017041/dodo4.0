@@ -1,0 +1,445 @@
+<section class="page-with-tabs">
+    <mat-tab-group [selectedIndex]="selectedIndex" (selectedIndexChange)="onIndexChange($event)"
+                   (selectedTabChange)="onTabsChange($event)" *ngIf="globalLabel && moduleLabel">
+        <mat-tab label="{{globalLabel['text']['moduleConf']}}">
+            <section class="container-fluid" minheight>
+                <article class="article">
+                    <div class="box box-default m-t">
+                        <div class="box-header">{{globalLabel['text']['btnSearch']}}</div>
+                        <div class="box-divider"></div>
+                        <div class="box-body">
+                            <form #moduleSearchForm="ngForm">
+                                <div class="form-group row">
+                                    <div class="col-sm-3">
+                                        <mat-form-field class="full-width">
+                                            <mat-select placeholder="{{moduleLabel['text']['module']}}"
+                                                        [(ngModel)]="moduleName" name="moduleName" required>
+                                                <mat-option *ngFor="let m of moduleList" [value]="m.moduleName">
+                                                    {{m.labelText}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-12">
+                                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left"
+                                                (click)="onSearch()" [disabled]="moduleSearchForm.form.invalid">
+                                            {{globalLabel['text']['btnSearch']}}
+                                        </button>
+                                        <!-- <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="reset">{{globalLabel['text']['btnReset']}}</button>-->
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="article" *ngIf="moduleConf">
+                    <div class="row">
+                        <div class="col-sm-7">
+
+                            <!--Search config-->
+                            <form #ConfSearchForm="ngForm">
+                                <div class="box box-default m-t">
+                                    <div class="box-header">{{moduleLabel['text']['searchConf']}}</div>
+                                    <div class="box-divider"></div>
+
+                                    <div class="box-body" *ngIf="auth.rightInsert && auth.rightDelete">
+                                        <button mat-raised-button color="accent" class="btn-w-xs"
+                                                *ngIf="auth.rightInsert" (click)="onAddFieldInConf('search')">
+                                            {{globalLabel['text']['btnAdd']}}
+                                        </button>
+                                        <button mat-raised-button color="warn" class="btn-w-xs"
+                                                *ngIf="auth.rightDelete" [disabled]="!isDelSearchBtn"
+                                                (click)="onDelConf('search')">
+                                            {{globalLabel['text']['btnDel']}}
+                                        </button>
+                                        <mat-icon class="refresh" [ngClass]="{'rotation': reSearchState}"
+                                                  (click)="onReConf('search')">refresh
+                                        </mat-icon>
+                                    </div>
+
+                                    <div class="box-body p-t-0">
+                                        <div class="box box-default table-box table-responsive mdl-shadow--2dp">
+                                            <table class="mdl-data-table">
+                                                <thead>
+                                                <tr>
+                                                    <th class="mdl-data-table__cell--non-numeric">#</th>
+                                                    <th class="mdl-data-table__cell--non-numeric">
+                                                        {{moduleLabel['text']['fieldLabel']}}
+                                                    </th>
+                                                    <th class="mdl-data-table__cell--non-numeric">
+                                                        {{moduleLabel['text']['fieldType']}}
+                                                    </th>
+                                                    <!--  <th class="mdl-data-table__cell&#45;&#45;non-numeric">{{moduleLabel['text']['validation']}}</th>
+                                                      <th class="mdl-data-table__cell&#45;&#45;non-numeric">{{moduleLabel['text']['pattern']}}</th>-->
+                                                </tr>
+                                                </thead>
+                                                <tbody [sortablejs]="searchList">
+                                                <tr *ngFor="let search of searchList">
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        <ng-container *ngIf="search.searchItemId">
+                                                            <mat-checkbox color="primary"
+                                                                          (change)="onItemChange($event,search,'search')"></mat-checkbox>
+                                                        </ng-container>
+                                                    </td>
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        {{search.fieldLabel}}
+                                                    </td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{search.fieldType}}
+                                                    </td>
+                                                    <!-- <td class="mdl-data-table__cell&#45;&#45;non-numeric">{{search.validation}}</td>
+                                                     <td class="mdl-data-table__cell&#45;&#45;non-numeric">{{search.pattern}}</td>-->
+                                                </tr>
+                                                <tr *ngIf="searchList.length == 0">
+                                                    <td colspan="5"
+                                                        class="mdl-data-table__cell--non-numeric text-center">
+                                                        {{moduleLabel.tips.emptyTable}}
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <small>{{moduleLabel.tips.tipsDragDrop}}</small>
+                                        </div>
+
+                                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left"
+                                                (click)="onUpdateConf('search')"
+                                                [disabled]="ConfSearchForm.form.invalid || searchList.length == 0">
+                                            {{globalLabel['text']['save']}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <!--Grid config-->
+                            <form #ConfGridForm="ngForm">
+                                <div class="box box-default m-t">
+                                    <div class="box-header">{{moduleLabel['text']['gridConf']}}</div>
+                                    <div class="box-divider"></div>
+                                    <div class="box-body" *ngIf="auth.rightInsert && auth.rightDelete">
+                                        <button mat-raised-button color="accent" class="btn-w-xs"
+                                                *ngIf="auth.rightInsert" (click)="onAddFieldInConf('grid')">
+                                            {{globalLabel['text']['btnAdd']}}
+                                        </button>
+                                        <button mat-raised-button color="warn" class="btn-w-xs"
+                                                *ngIf="auth.rightDelete" [disabled]="!isDelGridBtn"
+                                                (click)="onDelConf('grid')">
+                                            {{globalLabel['text']['btnDel']}}
+                                        </button>
+                                        <mat-icon class="refresh" [ngClass]="{'rotation': reGridState}"
+                                                  (click)="onReConf('grid')">refresh
+                                        </mat-icon>
+                                    </div>
+
+                                    <div class="box-body p-t-0">
+                                        <div class="box box-default table-box table-responsive mdl-shadow--2dp">
+                                            <table class="mdl-data-table">
+                                                <thead>
+                                                <tr>
+                                                    <th class="mdl-data-table__cell--non-numeric">#</th>
+                                                    <th class="mdl-data-table__cell--non-numeric">
+                                                        {{moduleLabel['text']['fieldLabel']}}
+                                                    </th>
+                                                    <th class="mdl-data-table__cell--non-numeric">
+                                                        {{moduleLabel['text']['fieldType']}}
+                                                    </th>
+                                                    <!-- <th class="mdl-data-table__cell&#45;&#45;non-numeric">{{moduleLabel['text']['validation']}}</th>
+                                                     <th class="mdl-data-table__cell&#45;&#45;non-numeric">{{moduleLabel['text']['pattern']}}</th>-->
+                                                </tr>
+                                                </thead>
+                                                <tbody [sortablejs]="gridList">
+                                                <tr *ngFor="let grid of gridList">
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        <ng-container *ngIf="grid.gridItemId">
+                                                            <mat-checkbox color="primary"
+                                                                          (change)="onItemChange($event,grid,'grid')"></mat-checkbox>
+                                                        </ng-container>
+                                                    </td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{grid.fieldLabel}}
+                                                    </td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{grid.fieldType}}
+                                                    </td>
+                                                    <!-- <td class="mdl-data-table__cell&#45;&#45;non-numeric">{{grid.validation}}</td>
+                                                     <td class="mdl-data-table__cell&#45;&#45;non-numeric">{{grid.pattern}}</td>-->
+                                                </tr>
+                                                <tr *ngIf="gridList.length == 0">
+                                                    <td colspan="5"
+                                                        class="mdl-data-table__cell--non-numeric text-center">
+                                                        {{moduleLabel.tips.emptyTable}}
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <small>{{moduleLabel.tips.tipsDragDrop}}</small>
+                                        </div>
+
+                                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left"
+                                                (click)="onUpdateConf('grid')"
+                                                [disabled]="ConfGridForm.form.invalid || gridList.length == 0">
+                                            {{globalLabel['text']['save']}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <!--Form config-->
+                            <form #ConfFormForm="ngForm">
+                                <div class="box box-default m-t">
+                                    <div class="box-header">{{moduleLabel['text']['formConf']}}</div>
+                                    <div class="box-divider"></div>
+                                    <div class="box-body" *ngIf="auth.rightInsert && auth.rightDelete">
+                                        <button mat-raised-button color="accent" class="btn-w-xs"
+                                                *ngIf="auth.rightInsert" (click)="onAddFieldInConf('form')">
+                                            {{globalLabel['text']['btnAdd']}}
+                                        </button>
+                                        <button mat-raised-button color="warn" class="btn-w-xs"
+                                                *ngIf="auth.rightDelete" [disabled]="!isDelFormBtn"
+                                                (click)="onDelConf('form')">
+                                            {{globalLabel['text']['btnDel']}}
+                                        </button>
+                                        <mat-icon class="refresh" [ngClass]="{'rotation': reFormState}"
+                                                  (click)="onReConf('form')">refresh
+                                        </mat-icon>
+                                    </div>
+
+                                    <div class="box-body p-t-0">
+                                        <div class="box box-default table-box table-responsive mdl-shadow--2dp">
+                                            <table class="mdl-data-table">
+                                                <thead>
+                                                <tr>
+                                                    <th class="mdl-data-table__cell--non-numeric">#</th>
+                                                    <th class="mdl-data-table__cell--non-numeric">
+                                                        {{moduleLabel['text']['fieldLabel']}}
+                                                    </th>
+                                                    <th class="mdl-data-table__cell--non-numeric">
+                                                        {{moduleLabel['text']['fieldType']}}
+                                                    </th>
+                                                    <th class="mdl-data-table__cell--non-numeric">
+                                                        {{moduleLabel['text']['validation']}}
+                                                    </th>
+                                                    <th class="mdl-data-table__cell--non-numeric">
+                                                        {{moduleLabel['text']['pattern']}}
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody [sortablejs]="formList">
+                                                <tr *ngFor="let form of formList">
+                                                    <td class="mdl-data-table__cell--non-numeric">
+                                                        <ng-container *ngIf="form.formItemId">
+                                                            <mat-checkbox color="primary"
+                                                                          (change)="onItemChange($event,form,'form')"></mat-checkbox>
+                                                        </ng-container>
+                                                    </td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{form.fieldLabel}}
+                                                    </td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{form.fieldType}}
+                                                    </td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{form.validation}}
+                                                    </td>
+                                                    <td class="mdl-data-table__cell--non-numeric">{{form.pattern}}</td>
+                                                </tr>
+                                                <tr *ngIf="gridList.length == 0">
+                                                    <td colspan="5"
+                                                        class="mdl-data-table__cell--non-numeric text-center">
+                                                        {{moduleLabel.tips.emptyTable}}
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <small>{{moduleLabel.tips.tipsDragDrop}}</small>
+                                        </div>
+
+                                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left"
+                                                (click)="onUpdateConf('form')"
+                                                [disabled]="ConfFormForm.form.invalid || formList.length == 0">
+                                            {{globalLabel['text']['save']}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+
+                        <!--Field List-->
+                        <div class="col-sm-5">
+                            <div class="box box-default m-t">
+                                <div class="box-header">{{moduleLabel['text']['fieldConf']}}</div>
+                                <div class="box-divider"></div>
+                                <div class="box-body" *ngIf="auth.rightInsert && auth.rightDelete">
+                                    <button mat-raised-button color="accent" class="btn-w-xs"
+                                            *ngIf="auth.rightInsert" (click)="onAddField()">
+                                        {{globalLabel['text']['btnAdd']}}
+                                    </button>
+                                    <button mat-raised-button color="warn" class="btn-w-xs"
+                                            *ngIf="auth.rightDelete" [disabled]="!isDelFieldBtn"
+                                            (click)="onDeleteField()">
+                                        {{globalLabel['text']['btnDel']}}
+                                    </button>
+                                </div>
+
+                                <div class="box-body p-t-0">
+                                    <div class="box box-default table-box table-responsive mdl-shadow--2dp">
+                                        <table class="mdl-data-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="mdl-data-table__cell--non-numeric">#</th>
+                                                    <th class="mdl-data-table__cell--non-numeric">
+                                                        {{moduleLabel['text']['fieldLabel']}}
+                                                    </th>
+                                                    <th class="mdl-data-table__cell--non-numeric">
+                                                        {{moduleLabel['text']['fieldType']}}
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr *ngFor="let field of fieldList">
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    <mat-checkbox color="primary"
+                                                                  (change)="onFieldChange($event,field)"></mat-checkbox>
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                        <span class="field" (click)="onFieldDetail(field)">
+                                                            {{field.fieldLabel}}
+                                                        </span>
+                                                </td>
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                        <span class="field" (click)="onFieldDetail(field)">
+                                                            {{field.fieldType}}
+                                                        </span>
+                                                </td>
+                                            </tr>
+                                            <tr *ngIf="fieldList.length == 0">
+                                                <td colspan="3" class="text-center">
+                                                    {{moduleLabel.tips.emptyTable}}
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--Field List End-->
+                    </div>
+
+                    <!--relational-->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="add-relational">
+                                <button mat-raised-button color="accent" class="btn-w-xs no-margin-left"
+                                        (click)="onAddRelational()">
+                                    {{moduleLabel['text']['addRelational']}}
+                                </button>
+                            </div>
+
+                            <ng-container *ngIf="relationalList">
+                                <ng-container *ngFor="let list of relationalList;let pIndex = index">
+                                    <div class="box box-default m-t">
+                                        <div class="box-header">
+                                            <span class="update-relational">{{globalLabel['text'][list.relationalName]}}</span>
+                                            <mat-icon class="clear-icon" (click)="onDeleteRelational(list.id)">clear</mat-icon>
+                                        </div>
+                                        <div class="box-divider"></div>
+
+                                        <div class="box-body" *ngIf="auth.rightInsert && auth.rightDelete">
+                                            <button mat-raised-button color="accent" class="btn-w-xs"
+                                                    *ngIf="auth.rightInsert" (click)="onAddRelationalItem(list,pIndex)">
+                                                {{globalLabel['text']['btnAdd']}}
+                                            </button>
+                                            <button mat-raised-button color="warn" class="btn-w-xs"
+                                                    *ngIf="auth.rightDelete" [disabled]="!isDelRItemBtnArr[pIndex]"
+                                                    (click)="onDeleteRelationalItem(list.id,pIndex)">
+                                                {{globalLabel['text']['btnDel']}}
+                                            </button>
+                                            <mat-icon class="refresh" [ngClass]="{'rotation': reRelationalStateArr[pIndex]}"
+                                                      (click)="reloadRelationalItem(list.id,pIndex)">refresh
+                                            </mat-icon>
+                                        </div>
+
+                                        <div class="box-body p-t-0">
+                                            <div class="box box-default table-box table-responsive mdl-shadow--2dp">
+                                                <table class="mdl-data-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="mdl-data-table__cell--non-numeric">#</th>
+                                                            <th class="mdl-data-table__cell--non-numeric">relational Id</th>
+                                                            <th class="mdl-data-table__cell--non-numeric">field Name</th>
+                                                            <th class="mdl-data-table__cell--non-numeric">is Link</th>
+                                                            <th class="mdl-data-table__cell--non-numeric">is Delete</th>
+                                                            <th class="mdl-data-table__cell--non-numeric">is History</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody [sortablejs]="relationalItemList[pIndex]">
+                                                        <ng-container *ngFor="let c of relationalItemList[pIndex]">
+
+                                                            <tr>
+                                                                <td class="mdl-data-table__cell--non-numeric">
+                                                                    <ng-container *ngIf="c.itemId">
+                                                                        <mat-checkbox color="primary"
+                                                                                      (change)="onRelationalItemChange($event,c,pIndex)"></mat-checkbox>
+                                                                    </ng-container>
+                                                                </td>
+                                                                <td class="mdl-data-table__cell--non-numeric">
+                                                                    <u class="text-primary c-p" (click)="onUpdateRelationalItem(c,pIndex)">{{c.relationalId}}</u>
+                                                                </td>
+                                                                <td class="mdl-data-table__cell--non-numeric">
+                                                                    <u class="text-primary c-p" (click)="onUpdateRelationalItem(c,pIndex)">{{c.fieldName}}</u>
+                                                                </td>
+                                                                <td class="mdl-data-table__cell--non-numeric">
+                                                                    {{c.isLink}}
+                                                                </td>
+                                                                <td class="mdl-data-table__cell--non-numeric">
+                                                                    {{c.isDelete}}
+                                                                </td>
+                                                                <td class="mdl-data-table__cell--non-numeric">
+                                                                    {{c.isHistory}}
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr *ngIf="relationalItemList[pIndex].length == 0">
+                                                                <td colspan="6"
+                                                                    class="mdl-data-table__cell--non-numeric text-center">
+                                                                    {{moduleLabel.tips.emptyTable}}
+                                                                </td>
+                                                            </tr>
+
+                                                        </ng-container>
+                                                    </tbody>
+                                                </table>
+                                                <small>{{moduleLabel.tips.tipsDragDrop}}</small>
+                                            </div>
+
+                                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left"
+                                                    (click)="onUpdateRelationalItemSort(list.id,pIndex)"
+                                                    [disabled]="ConfFormForm.form.invalid || formList.length == 0">
+                                                {{globalLabel['text']['save']}}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </ng-container>
+                            </ng-container>
+                        </div>
+
+                    </div>
+                </article>
+            </section>
+        </mat-tab>
+
+        <mat-tab label="{{fieldPageType=='add'?moduleLabel['text']['addField']:moduleLabel['text']['fieldDetail'] }}"
+                 *ngIf="isFieldDisplay">
+            <my-module-field-config
+                    [fieldPageType]="fieldPageType" [fieldData]="fieldData"
+                    [moduleLabel]="moduleLabel" [globalLabel]="globalLabel"
+                    [moduleName]="moduleName" [labelTypeList]="labelTypeList"
+                    [selectOptionList]="selectOptionList" [labelOriginalList]="labelOriginalList"
+                    [displayList]="displayList"   [disabledList]="disabledList"   [readonlyList]="readonlyList"
+                    [linkageList]="linkageList" [moduleList]="moduleList"
+                    (onReload)="onReload($event)"
+            >
+            </my-module-field-config>
+        </mat-tab>
+
+    </mat-tab-group>
+</section>

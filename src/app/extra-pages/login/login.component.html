@@ -1,0 +1,71 @@
+<div class="page-auth">
+    <div class="main-body">
+        <div class="card card-white">
+            <div class="card-content" *ngIf="globalLabel">
+                <div class="logo text-center">
+                    <a>{{globalLabel['text']['signIn']}}</a>
+                </div>
+
+                <form name="material_login_form" class="form-validation" #loginForm="ngForm" (ngSubmit)="onLogin()">
+
+                    <mat-form-field class="full-width">
+                        <mat-label>{{globalLabel['text']['email']}}</mat-label>
+                        <input required matInput type="email" name="email"
+                               [(ngModel)]="login.email" required email
+                        >
+                        <mat-icon matSuffix class="material-icons">mail_outline</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <mat-label>{{globalLabel['text']['password']}}</mat-label>
+                        <input required matInput name="password" [(ngModel)]="login.password" required
+                               [type]="hide ? 'text' : 'password'">
+                        <mat-icon matSuffix (click)="hide = !hide" class="c-p">{{hide ?  'visibility_off' : 'visibility'}}</mat-icon>
+                    </mat-form-field>
+
+                    <div class="divider divider-md"></div>
+
+                    <button  mat-raised-button type="submit" color="primary"
+                             class="btn-lg full-width" [disabled]="!loginForm.form.valid">
+                        {{globalLabel['text']['signIn']}}
+                    </button>
+
+                    <div class="divider divider-md"></div>
+
+                    <div class="third-party">
+                        {{globalLabel['text']['thirdSignIn']}}
+                    </div>
+
+                    <div class="divider divider-md"></div>
+
+                    <div class="third-btn btn-lg qq">
+                        <a class="third-a">
+                            <i class="fa fa-qq"></i>
+                            {{globalLabel['text']['qq']}}
+                        </a>
+                    </div>
+                    <div class="third-btn btn-lg wechat">
+                        <a class="third-a">
+                            <i class="fa fa-wechat"></i>
+                            {{globalLabel['text']['wechat']}}
+                        </a>
+                    </div>
+                    <div class="third-btn btn-lg weibo">
+                        <a class="third-a">
+                            <i class="fa fa-weibo"></i>
+                            {{globalLabel['text']['weibo']}}
+                        </a>
+                    </div>
+
+                </form>
+
+                <div class="additional-info">
+                    <a [routerLink]="['/extra/sign-up']">{{globalLabel['text']['signUp']}}</a>
+                    <span class="divider-h"></span>
+                    <a [routerLink]="['/extra/forgot-password']">{{globalLabel['text']['forgotPassword']}}</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

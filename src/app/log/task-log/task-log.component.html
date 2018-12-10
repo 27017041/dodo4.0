@@ -1,0 +1,105 @@
+<section class="page-with-tabs">
+    <mat-tab-group [selectedIndex]="selectedIndex" (selectedIndexChange)="onIndexChange($event)"
+                   (selectedTabChange)="onTabsChange($event)" *ngIf="globalLabel && moduleLabel">
+        <mat-tab label="{{moduleLabel['text']['taskList']}}">
+            <section class="container-fluid" minheight>
+                <article class="article">
+                    <div class="box box-default m-t">
+                        <div class="box-header">{{globalLabel['text']['btnSearch']}}</div>
+                        <div class="box-divider"></div>
+                        <div class="box-body">
+                            <form #taskLogForm="ngForm">
+                                <div class="form-group row">
+                                    <div class="col-sm-3">
+                                        <mat-form-field class="full-width">
+                                            <input matInput placeholder="{{moduleLabel['text']['taskName']}}"
+                                                   name="taskName" [(ngModel)]="taskLog.taskName">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <mat-form-field class="full-width">
+                                            <mat-select placeholder="{{moduleLabel['text']['frequencyType']}}"
+                                                        [(ngModel)]="taskLog.frequencyType" name="frequencyType">
+                                                <mat-option *ngFor="let r of frequencySelect" [value]="r.optionId">
+                                                    {{r.optionName}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <mat-form-field class="full-width">
+                                            <mat-select placeholder="{{moduleLabel['text']['status']}}"
+                                                        [(ngModel)]="taskLog.status" name="status">
+                                                <mat-option *ngFor="let s of statusList" [value]="s.optionId">
+                                                    {{s.optionName}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-12">
+                                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" (click)="onSearch()">{{globalLabel['text']['btnSearch']}}</button>
+                                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="reset"  [disabled]="taskLogForm.pristine">{{globalLabel['text']['btnReset']}}</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="box box-default">
+                        <div class="box-header" id="list" >{{globalLabel['text']['list']}}</div>
+                        <!--<div [ngClass]="{'box-divider':auth.rightInsert || auth.rightDelete}"></div>-->
+                        <div class="box-body">
+                            <!--<div [ngClass]="{'row m-b':auth.rightInsert || auth.rightDelete}">-->
+                                <!--<div class="col-12">-->
+
+                                    <!--<button mat-raised-button  color="accent" class="btn-w-xs"-->
+                                            <!--*ngIf="auth.rightInsert" (click)="onAdd()">-->
+                                        <!--{{globalLabel['text']['btnAdd']}}-->
+                                    <!--</button>-->
+                                    <!--<button mat-raised-button  color="warn" class="btn-w-xs"-->
+                                            <!--*ngIf="auth.rightDelete" [disabled]="isBtnDelete" (click)="onDelete()">-->
+                                        <!--{{globalLabel['text']['btnDel']}}-->
+                                    <!--</button>-->
+
+                                <!--</div>-->
+                            <!--</div>-->
+                            <div class="table-responsive" >
+                                <table datatable [dtOptions]="dtOptions" class="table table-striped" cellspacing="0" width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>{{moduleLabel['text']['taskName']}}</th>
+                                        <th>{{moduleLabel['text']['frequency']}}</th>
+                                        <th>{{moduleLabel['text']['status']}}</th>
+                                        <!--<th>{{moduleLabel['text']['log']}}</th>-->
+                                        <!--<th>{{moduleLabel['text']['status']}}</th>-->
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </mat-tab>
+        <mat-tab label="{{moduleLabel['text']['allTaskLogList']}}">
+            <all-task-log
+            [moduleLabel]="moduleLabel" [globalLabel]="globalLabel"
+            [statusList]="statusList"
+            >
+            </all-task-log>
+        </mat-tab>
+        <mat-tab label="{{moduleLabel['text']['taskLogDetails']}}" *ngIf="isDisplay">
+            <task-log-form
+                    [pageType]="pageType"  [taskLogData]="taskLogData"
+                    [moduleLabel]="moduleLabel" [globalLabel]="globalLabel"
+            >
+            </task-log-form>
+        </mat-tab>
+    </mat-tab-group>
+</section>

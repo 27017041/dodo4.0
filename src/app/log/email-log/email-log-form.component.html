@@ -1,0 +1,22 @@
+<section class="container-fluid" minheight>
+    <article class="article">
+        <div class="box box-default m-t">
+            <div class="box-body">
+                <div>
+                    <h2 class="text-center">
+                        <b>{{formData?.mailSubject}}</b>
+                    </h2>
+                </div>
+                <div>
+                    <p>{{moduleLabel['text']['addresser']}} : {{formData?.mailFrom}}</p>
+                    <p>{{moduleLabel['text']['receiver']}} : {{formData?.mailTo}}</p>
+                    <p>{{moduleLabel['text']['copyTo']}} : {{formData?.mailCc}}</p>
+                    <p>{{moduleLabel['text']['date']}} : {{formData?.insertDate}}</p>
+                </div>
+                <div>
+                    <p  [innerHtml]="formData?.mailContent"></p>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>

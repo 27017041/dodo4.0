@@ -1,0 +1,92 @@
+
+<h2 mat-dialog-title>
+    {{moduleLabel['text']['addRelational']}}
+</h2>
+<form #addRelationalForm="ngForm">
+    <mat-dialog-content>
+
+        <mat-form-field class="full-width">
+            <mat-select placeholder="{{moduleLabel['text']['relationalName']}}"
+                        [(ngModel)]="relationalData.relationalName" name="relationalName" #relationalName="ngModel"  required  >
+                <mat-option *ngFor="let m of moduleList" [value]="m.moduleName">
+                    {{m.labelText}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="relationalName.invalid">
+                <span *ngIf="relationalName.errors.required" > {{moduleLabel['text']['relationalName'] + globalLabel['tips']['requiredErr']}}</span>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label>{{moduleLabel['text']['tableName']}}</mat-label>
+            <input matInput name="tableName" [(ngModel)]="relationalData.tableName"
+                   #tableName="ngModel" required  maxlength="255">
+            <mat-error *ngIf="tableName.invalid">
+                <span *ngIf="tableName.errors.required" > {{moduleLabel['text']['tableName'] + globalLabel['tips']['requiredErr']}}</span>
+                <span *ngIf="!tableName.errors.required&&tableName.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + tableName.errors.maxlength['requiredLength']}}</span>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label>{{moduleLabel['text']['tableField']}}</mat-label>
+            <input matInput name="tableField" [(ngModel)]="relationalData.tableField"
+                   #tableField="ngModel" required  maxlength="255">
+            <mat-error *ngIf="tableField.invalid">
+                <span *ngIf="tableField.errors.required" > {{moduleLabel['text']['tableField'] + globalLabel['tips']['requiredErr']}}</span>
+                <span *ngIf="!tableField.errors.required&&tableField.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + tableField.errors.maxlength['requiredLength']}}</span>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label>{{moduleLabel['text']['tableKey']}}</mat-label>
+            <input matInput name="tableKey" [(ngModel)]="relationalData.tableKey"
+                   #tableKey="ngModel" required  maxlength="255">
+            <mat-error *ngIf="tableKey.invalid">
+                <span *ngIf="tableKey.errors.required" > {{moduleLabel['text']['tableKey'] + globalLabel['tips']['requiredErr']}}</span>
+                <span *ngIf="!tableKey.errors.required&&tableKey.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + tableKey.errors.maxlength['requiredLength']}}</span>
+            </mat-error>
+        </mat-form-field>
+
+        <div class="m-t m-b">
+            <mat-checkbox color="primary" name="isDelete" [(ngModel)]="relationalData.isDelete">
+                {{moduleLabel['text']['isDelete']}}
+            </mat-checkbox>
+        </div>
+
+        <ng-container *ngIf="relationalData.isDelete == 1">
+            <mat-form-field class="full-width">
+                <mat-label>{{moduleLabel['text']['deleteUrl']}}</mat-label>
+                <input matInput name="deleteUrl" [(ngModel)]="relationalData.deleteUrl"
+                       #deleteUrl="ngModel" required  maxlength="255">
+                <mat-error *ngIf="deleteUrl.invalid">
+                    <span *ngIf="deleteUrl.errors.required" > {{moduleLabel['text']['deleteUrl'] + globalLabel['tips']['requiredErr']}}</span>
+                    <span *ngIf="!deleteUrl.errors.required&&deleteUrl.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + deleteUrl.errors.maxlength['requiredLength']}}</span>
+                </mat-error>
+            </mat-form-field>
+        </ng-container>
+
+        <div class="m-t m-b">
+            <mat-checkbox  color="primary" name="isHistory" [(ngModel)]="relationalData.isHistory">
+                {{moduleLabel['text']['isHistory']}}
+            </mat-checkbox>
+        </div>
+
+        <ng-container *ngIf="relationalData.isHistory == 1">
+            <mat-form-field class="full-width">
+                <mat-label>{{moduleLabel['text']['historyUrl']}}</mat-label>
+                <input matInput name="historyUrl" [(ngModel)]="relationalData.historyUrl"
+                       #historyUrl="ngModel" required  maxlength="255">
+                <mat-error *ngIf="historyUrl.invalid">
+                    <span *ngIf="historyUrl.errors.required" > {{moduleLabel['text']['historyUrl'] + globalLabel['tips']['requiredErr']}}</span>
+                    <span *ngIf="!historyUrl.errors.required&&historyUrl.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + historyUrl.errors.maxlength['requiredLength']}}</span>
+                </mat-error>
+            </mat-form-field>
+        </ng-container>
+
+    </mat-dialog-content>
+
+    <div md-dialog-actions class="text-right">
+        <button mat-button (click)="dialogRef.close(0)">{{globalLabel.text.no}}</button>
+        <button mat-button color="accent" (click)="dialogRef.close(relationalData)" [disabled]="addRelationalForm.form.invalid">{{globalLabel.text.yes}}</button>
+    </div>
+</form>

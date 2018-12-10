@@ -1,0 +1,56 @@
+<section class="container-fluid" minheight>
+    <article class="article">
+        <div class="box box-default m-t" *ngIf="formData">
+            <div class="box-body">
+                <form #detailForm="ngForm">
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                            <mat-form-field class="full-width">
+                                <mat-label>{{moduleLabel['text']['roleName']}}</mat-label>
+                                <input matInput  name="roleName" [(ngModel)]="formData.roleName"
+                                       #roleName="ngModel"  required pattern="[a-zA-Z0-9\s]*" maxlength="255">
+                                <mat-error *ngIf="roleName.invalid">
+                                    <span *ngIf="roleName.errors.required" > {{moduleLabel['text']['roleName'] + globalLabel['tips']['requiredErr']}}</span>
+                                    <span *ngIf="!roleName.errors.required&&roleName.errors.pattern" > {{moduleLabel['tips']['rolePatternErr']}}</span>
+                                    <span *ngIf="!roleName.errors.required&&roleName.errors.maxlength" > {{globalLabel['tips']['maxLengthErr'] + roleName.errors.maxlength['requiredLength']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3">
+                            <mat-form-field class="full-width">
+                                <mat-select placeholder="{{moduleLabel['text']['status']}}"
+                                            [(ngModel)]="formData.status" name="status"
+                                            #status="ngModel" required >
+                                    <mat-option *ngFor="let s of statusList" [value]="s.optionId">
+                                        {{s.optionName}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="status.invalid">
+                                    <span *ngIf="status.errors.required" > {{moduleLabel['text']['status'] + globalLabel['tips']['requiredErr']}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="form-group row m-t-2">
+                        <div class="col-12">
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left"
+                                    *ngIf="pageType=='add'" type="button"
+                                    (click)="onAdd()" [disabled]="detailForm.form.invalid">
+                                {{globalLabel['text']['btnAdd']}}
+                            </button>
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left"
+                                    *ngIf="pageType=='detail'" type="button"
+                                    (click)="onUpdate()" [disabled]="detailForm.form.invalid">
+                                {{globalLabel['text']['save']}}
+                            </button>
+                            <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="reset"
+                                    (click)="onReset()" [disabled]="detailForm.form.pristine">
+                                {{globalLabel['text']['btnReset']}}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </article>
+</section>

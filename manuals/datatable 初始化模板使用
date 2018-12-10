@@ -1,0 +1,101 @@
+import { ViewChild, OnInit,ViewChild } from '@angular/core';
+import { DataTableDirective } from 'angular-datatables';
+import {DatatableService} from "../../datatable/datatable.service";
+@Component({
+    selector: 'my-test',
+    templateUrl: './test.component.html'
+})
+export class TestComponent implements OnInit {
+    dtOptions: any;// 表格的配置
+    @ViewChild(DataTableDirective) dtElement: DataTableDirective; // 表格实例
+    hasDtInstance:boolean = false;//防止table多次实例化
+    isBtnDelete:boolean = true;//选择数据后才能delete
+
+    constructor(
+        private dt:DatatableService
+    ) { }
+
+    onSearch(){
+        this.dt.onSearch(this);
+    }
+
+    onDetail(keyId){
+        // 传 keyId 给后台 获取数据
+    }
+
+    onDelete(){
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            const selectData = dtInstance.rows('.selected').data();
+            let checkIds = "";
+            for(let i=0;i<selectData.length;i++){
+                checkIds = checkIds+selectData[i]['roleId']+',';
+            }
+            checkIds = checkIds.substring(0,checkIds.length-1);
+            // 传 checkIds 给后台
+            // 删除成功后请把 isBtnDelete 设为 true
+        });
+    }
+
+    setGrid(){
+        this.dtOptions = this.dt.setGrid(
+            {
+                hasSelect:true, //是否含有选择框
+                hasLink:true,//是否含有连接
+                ajax:{
+                    url:RoleApi.getList, // url
+                    data:this.role // data, 会把对象处理成字符串
+                },
+                columns:[
+                    {isSelect:true}, // isSelect 配置checkbox
+                    {isLink:true,keyField:"roleId",data:"roleName",name:"roleName"}, // isLink 是配置成链接，点击会发送keyid 去请求详情，keyField 是key 字段名称
+                    {data:"statusValue",name:"status"}// data 显示的数据的filed，对应java 实体类   name 传给后台的filed
+                ]
+            },
+            this  //当前的component
+        )
+    }
+
+    ngOnInit() {
+        this.setGrid();
+    }
+}
+
+
+
+html--------------------------------------------------------------------------------------------------------------------
+
+<div class="box box-default">
+    <div class="box-header" id="list" >{{gobalLabel['text']['list']}}</div>
+    <div [ngClass]="{'box-divider':auth.rightInsert || auth.rightDelete}"></div>
+    <div class="box-body">
+        <div [ngClass]="{'row m-b':auth.rightInsert || auth.rightDelete}">
+            <div class="col-12">
+
+                <button mat-raised-button  color="accent" class="btn-w-xs"
+                        *ngIf="auth.rightInsert" (click)="onAdd()">
+                    {{gobalLabel['text']['btnAdd']}}
+                </button>
+                <button mat-raised-button  color="warn" class="btn-w-xs"
+                        *ngIf="auth.rightDelete" [disabled]="isBtnDelete" (click)="onDelete()">
+                    {{gobalLabel['text']['btnDel']}}
+                </button>
+
+            </div>
+        </div>
+
+        <div class="table-responsive" >
+            <table datatable [dtOptions]="dtOptions" class="table table-striped" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{moduleLabel['text']['roleName']}}</th>
+                        <th>{{moduleLabel['text']['status']}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

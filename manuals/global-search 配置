@@ -1,0 +1,24 @@
+
+1.moduleName 首先要去数据库看OBJ 的obj_type_id ，然后看obj_type_ref 的obj_title_title
+    的值就是moduleName，这是用来判断打开tab 的时候，加载哪个模块的component-form
+2.在global-search.component.html 最下面，ngSwitchCase 加上模块判断。
+    <ng-container *ngSwitchCase="'user'">
+        <my-user-form
+                [moduleLabel]="relationalLabel" [globalLabel]="globalLabel"
+                [pageType]="t.pageType" [keyId]="t.id"
+                (onReload)="onReload($event)"
+        >
+        </my-user-form>
+    </ng-container>
+
+     *ngSwitchCase="'user'" user 就是第一步确认模块名字
+     <my-user-form> 这个是对应 user-form.compoent 的selector ，请到对应模块组件确认。
+        里面的属性值最好保持跟上面列子一样
+     </my-user-form>
+
+3.查看组件所在的模块，然后在exports 导出组件。
+    列如 user-form.component是在 administrator.module, 然后在administrator.module的exports
+    里面添加  exports: [ UserFormComponent ],
+
+4.在global-search 所在的模块 layout.module 里面导入 administrator.module。
+    就可以用里面的UserFormCompoent。imports[AdministrationModule]。

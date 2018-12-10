@@ -1,0 +1,27 @@
+1.node js   //最好是最新版本，不然可能会报错
+2.npm install --global smart-npm --registry=https://registry.npm.taobao.org/    //设置淘宝镜像
+3.npm install -g typescript typings     //因为angular-cli是用typescript写的，所以要先装这两个
+4.npm install -g @angular/cli   // 安装失败卸载  npm uninstall @angular/cli
+5.ng -v     //查看是否安装成功
+6.npm install //去到项目文件下安装node_modules
+7.ng serve --open   //启动项目
+
+----CLI 打包----
+8. ng build --prod --build-optimizer //CLI 打包 网址：https://angular.cn/guide/deployment
+
+----webpack 打包 ----
+8.ng eject      //可选，生成webpack 配置，可用webpack 命令，ng 命令失效，一般用于最后打包
+9.npm run build     //打包
+
+--------------------------------------------------------------------------------------------------
+
+配置独立模块
+1.在数据库core_menu 配置菜单 比如module_name ： memberInfo
+2.在系统tools->label-config配置文本，选择"全局模块文本", 新增memberInfo 的文本
+3.在系统，去到 Administriong 里面的 Assign Menu To Role 配置memberInfo 模块的权限
+4.刷新页面即可看到你增加的菜单
+5.需要在angular 系统对应的路由，路由的path 要对应core_menu 的menu_link 字段
+6.增加component，template 就完成了。
+7.配置文本和多语言
+    7.1在系统 List Configuration , 选择 Label Type ， 增加模块的文本和提示文本这两个选项。
+    7.2在其它 Label Configuration , 选择刚才新加的选项，列如Member Infp Text,然后Add,添加label就行了。

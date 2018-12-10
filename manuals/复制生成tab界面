@@ -1,0 +1,98 @@
+<section class="page-with-tabs">
+    <mat-tab-group [selectedIndex]="selectedIndex" (selectedIndexChange)="onIndexChange($event)"
+                   (selectedTabChange)="onTabsChange($event)" *ngIf="gobalLabel && moduleLabel">
+        <mat-tab label="{{gobalLabel['text']['listConf']}}">
+            <section class="container-fluid" minheight>
+                <article class="article">
+                    <div class="box box-default m-t">
+                        <div class="box-header">{{gobalLabel['text']['btnSearch']}}</div>
+                        <div class="box-divider"></div>
+                        <div class="box-body">
+                            <form #searchForm="ngForm">
+                                <div class="form-group row">
+                                    <div class="col-sm-3">
+                                        <!--<mat-form-field class="full-width">
+                                            <mat-select placeholder="{{moduleLabel['text']['module']}}"
+                                                        [(ngModel)]="moduleName" name="moduleName" required>
+                                                <mat-option *ngFor="let m of moduleList" [value]="m.moduleName">
+                                                    {{m.labelText}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>-->
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-12">
+                                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" (click)="onSearch()" [disabled]="searchForm.form.invalid">{{gobalLabel['text']['btnSearch']}}</button>
+                                        <button mat-raised-button color="primary" class="btn-w-xs no-margin-left" type="reset">{{gobalLabel['text']['btnReset']}}</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </mat-tab>
+    </mat-tab-group>
+</section>
+
+------------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Created by Leo on 2017/11/23.
+ */
+import { Component, OnInit,HostListener } from '@angular/core';
+import {LabelService} from "../../util/label.service";
+import {UtilService} from "../../util/util.service";
+
+@Component({
+    selector: 'my-list-config',
+    templateUrl: './list-config.component.html'
+})
+export class ListConfigComponent implements OnInit {
+    gobalLabel:any;
+    moduleLabel:any;
+
+    selectedIndex:number = 0;//tabs 切换
+    auth = {
+        rightDelete:0,
+        rightInsert:0,
+        rightRead:0,
+        rightUpdate:0
+    }
+
+    constructor(
+        private label:LabelService,
+        private util:UtilService
+    ) { }
+
+    //切换tabs
+    onTabsChange(tabs) {
+        this.selectedIndex = tabs.index;
+    }
+    onIndexChange(index:number){
+        this.selectedIndex = index;
+    }
+
+   getLabel() {
+       this.label.getGobalLabel(this);
+       this.label.getModuleLabel('role', this);
+   }
+
+    getAuth(){
+        this.util.getAuth('listConf',this);
+    }
+
+    @HostListener("document:keydown",["$event"])
+    onKeydown(e){
+        if(e.key == "Enter"){
+            this.onSearch();
+        }
+    }
+
+    ngOnInit() {
+        this.getLabel();
+        this.getAuth();
+    }
+
+}

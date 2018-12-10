@@ -1,0 +1,137 @@
+1. ModuleAuth 获取模块操作权限
+Path: util/util.service.ts
+Module: UtilService
+Overview:
+    /**
+    * moduleName 模块名称，对应数据库 conf_menu 的 menu_original 值
+    * component 当前的组件，便于赋值
+    **/
+    getAuth(moduleName,component);
+example:
+    auth = {
+        rightDelete:0,
+        rightInsert:0,
+        rightRead:0,
+        rightUpdate:0
+    } //定义个auth 属性，固定写法，不可修改
+    constructor(private util:UtilService){}
+    this.util.getAuth('role',this);
+
+------------------------------------------------------------------------------------------------------------------------
+
+2. OptionList 获取下拉菜单的数据列表
+Path: util/util.service.ts
+Module: UtilService
+Overview:
+    /**
+    * typeId 下拉类别的id, 对应数据库 ref_option_type 的 type_id 值
+    * fieldList 当前组件定义的属性，可以是string 或 array
+    * component 当前的组件，便于赋值
+    **/
+    getSelectList(typeId, fieldList:string | Array<string>, Component)
+example:
+    statusList:any;
+    testList:any;
+    constructor(private util:UtilService){}
+    getSelectList(){
+        this.util.getSelectList(1,"statusList",this);
+        //OR
+        this.util.getSelectList(1,["statusList","testList"],this);
+    }
+
+------------------------------------------------------------------------------------------------------------------------
+
+3. Cookie 使用
+Path: util/cookie.service.ts
+Module: CookieService
+Overview:
+    /**
+    * name cookie名字
+    * value cookie值
+    * path cookie路径, 默认 "/"
+    * domain cookie域名, 默认当前浏览器域名
+    **/
+    setCookie(name:string, value:any, path?:string, domain?:string)
+    getCookie(name:string)
+    delCookie(name:string, path?:string, domain?:string)
+example:
+    constructor(private cookie:CookieService){}
+    setCookie(){
+        this.cookie.setCookie("language","cn");
+        //OR
+        this.cookie.setCookie("language","cn","/","www.dodo40.com")
+    }
+    getCookie(){
+        this.cookie.getCookie("language");
+    }
+    delCookie(){
+        this.cookie.delCookie("language");
+        //OR
+        this.cookie.delCookie("language","/","www.dodo40.com")
+    }
+
+------------------------------------------------------------------------------------------------------------------------
+
+4.Layer 使用
+Path: layer/layer.service.ts
+Module: LayerService
+Overview:
+    /**
+    * type 提示类型：msg_succ, msg_warn, msg_danger
+    * text 文本内容
+    * time 显示时间, 默认2100ms
+    * callback 回调函数
+    * MatDialogConfig https://material.angular.io/components/dialog/api#MatDialogConfig
+    **/
+    loading()
+    msg({type:type,text:text,time?:time},callback)
+    alert(text:string)
+example:
+    constructor(private layer:LayerService){}
+
+    //loading
+    const dialogRef = this.layer.loading();
+    setTimeout(()=>{
+        dialogRef.close(); // 可以放到请求结束的位置，关闭弹出层
+    },2100)
+
+    //msg
+    this.layer.msg({type:"msg_danger",text:"This is text"},()=>{
+        console.log("callback")
+    });
+
+    //alert
+    const dialogRef = this.layer.alert(text)
+    dialogRef.afterClosed().subscribe(result => {
+        if(result){
+            // return result is 1, so you can do right something
+        }else{
+            // return result is 0, so you should be close the layer, ex: dialogRef.close();
+        }
+    });
+
+------------------------------------------------------------------------------------------------------------------------
+
+5. Label 使用
+Path: util/label.service.ts
+Module: LabelService
+Overview:
+    /**
+    * comp 组件，传this
+    * module 模块名字
+    **/
+    getGobalLabel(comp); //获取全局标签文本和提示文本
+    getModuleLabel(module,comp); //获取当前模块标签文本和提示文本
+example:
+    gobalLabel:any;
+    moduleLabel:any;
+    constructor(private label:LabelService){}
+
+    getLabel() {
+        //获取全局文本，固定这种写法
+        this.label.getGobalLabel(this);
+        //获取模块文本，传模块名称和this
+        this.label.getModuleLabel('role', this);
+    }
+
+------------------------------------------------------------------------------------------------------------------------
